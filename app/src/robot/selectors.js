@@ -319,7 +319,7 @@ export function getLabwareBySlot (state: State) {
 export const getLabware = createSelector(
   getLabwareBySlot,
   (state: State) => calibration(state).confirmedBySlot,
-  (state: State) => getCalibrationRequest(state),
+  getCalibrationRequest,
   (labwareBySlot, confirmedBySlot, calibrationRequest): Labware[] => {
     return Object.keys(labwareBySlot)
       .filter(isSlot)
@@ -419,3 +419,15 @@ export function getOffsetUpdateInProgress (state: State): boolean {
 export function getJogDistance (state: State): number {
   return calibration(state).jogDistance
 }
+
+export const getCurrentInstrument = createSelector(
+  getInstruments,
+  getCalibrationRequest,
+  (instruments, request) => instruments.find((i) => i.mount === request.mount)
+)
+
+export const getCurrentLabware = createSelector(
+  getLabware,
+  getCalibrationRequest,
+  (labware, request) => labware.find((lw) => lw.slot === request.slot)
+)

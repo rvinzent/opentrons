@@ -26,7 +26,9 @@ const {
   getUnconfirmedTipracks,
   getUnconfirmedLabware,
   getNextLabware,
-  getJogDistance
+  getJogDistance,
+  getCurrentInstrument,
+  getCurrentLabware
 } = selectors
 
 describe('robot selectors', () => {
@@ -340,33 +342,60 @@ describe('robot selectors', () => {
     })
   })
 
-  // TODO(mc: 2018-01-10): rethink the instrument level "calibration" prop
-  test('get instruments', () => {
-    const state = makeState({
-      session: {
-        instrumentsByMount: {
-          left: {mount: 'left', name: 'p200m', channels: 8, volume: 200},
-          right: {mount: 'right', name: 'p50s', channels: 1, volume: 50}
-        }
-      },
-      calibration: {
-        calibrationRequest: {
-          type: 'PROBE_TIP',
-          mount: 'left',
-          inProgress: true,
-          error: null
+  describe('instrument selectors', () => {
+    let state
+
+    beforeEach(() => {
+      state = makeState({
+        session: {
+          instrumentsByMount: {
+            left: {mount: 'left', name: 'p200m', channels: 8, volume: 200},
+            right: {mount: 'right', name: 'p50s', channels: 1, volume: 50}
+          }
         },
-        probedByMount: {
-          left: true
-        },
-        tipOnByMount: {
-          right: true
+        calibration: {
+          calibrationRequest: {
+            type: 'PROBE_TIP',
+            mount: 'left',
+            inProgress: true,
+            error: null
+          },
+          probedByMount: {
+            left: true
+          },
+          tipOnByMount: {
+            right: true
+          }
         }
-      }
+      })
     })
 
-    expect(getInstruments(state)).toEqual([
-      {
+    // TODO(mc: 2018-01-10): rethink the instrument level "calibration" prop
+    test('get instruments', () => {
+      expect(getInstruments(state)).toEqual([
+        {
+          mount: 'left',
+          name: 'p200m',
+          channels: 8,
+          volume: 200,
+          calibration: constants.PROBING,
+          probed: true,
+          tipOn: false
+        },
+        {
+          mount: 'right',
+          name: 'p50s',
+          channels: 1,
+          volume: 50,
+          calibration: constants.UNPROBED,
+          probed: false,
+          tipOn: true
+        }
+      ])
+    })
+
+    test('get current instrument', () => {
+      expect(getCurrentInstrument(state)).toEqual({
         mount: 'left',
         name: 'p200m',
         channels: 8,
@@ -374,17 +403,8 @@ describe('robot selectors', () => {
         calibration: constants.PROBING,
         probed: true,
         tipOn: false
-      },
-      {
-        mount: 'right',
-        name: 'p50s',
-        channels: 1,
-        volume: 50,
-        calibration: constants.UNPROBED,
-        probed: false,
-        tipOn: true
-      }
-    ])
+      })
+    })
   })
 
   test('get jog distance', () => {
@@ -623,6 +643,19 @@ describe('robot selectors', () => {
         isMoving: false,
         calibration: 'unconfirmed',
         confirmed: false
+      })
+    })
+
+    test('get current labware', () => {
+      expect(getCurrentLabware(state)).toEqual({
+        slot: '1',
+        name: 'a1',
+        type: 'a',
+        isTiprack: true,
+        isMoving: true,
+        calibration: 'moving-to-slot',
+        confirmed: false,
+        calibratorMount: 'left'
       })
     })
   })
