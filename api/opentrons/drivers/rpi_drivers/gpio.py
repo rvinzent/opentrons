@@ -173,10 +173,10 @@ def turn_off_rail_lights():
     set_low(OUTPUT_PINS['FRAME_LEDS'])
 
 
-def read_button(self):
+def read_button():
     # button is normal-HIGH, so invert
     return not bool(read(INPUT_PINS['BUTTON_INPUT']))
 
 
-def read_window_switches(self):
+def read_window_switches():
     return bool(read(INPUT_PINS['WINDOW_INPUT']))

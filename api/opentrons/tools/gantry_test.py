@@ -131,6 +131,8 @@ if __name__ == '__main__':
         robot.home()
         run_x_axis()
         run_y_axis()
+        gpio.set_button_light(red=False, green=True, blue=False)  # green
+        print("PASS")
     except KeyboardInterrupt:
         print("Test Cancelled")
         gpio.set_button_light(red=False, green=False, blue=True)  # blue
@@ -138,6 +140,3 @@ if __name__ == '__main__':
     except Exception as e:
         gpio.set_button_light(red=True, green=False, blue=False)  # red
         print("FAIL: {}".format(e))
-
-    gpio.set_button_light(red=False, green=True, blue=False)  # green
-    print("PASS")
