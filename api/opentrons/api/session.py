@@ -4,10 +4,12 @@ from copy import copy
 from time import time
 from functools import reduce
 import json
+from threading import Timer
 
 from opentrons.broker import publish, subscribe
 from opentrons.containers import get_container, location_to_list
 from opentrons.commands import tree, types
+from opentrons.drivers.rpi_drivers import gpio
 from opentrons.protocols import execute_protocol
 from opentrons import robot
 
@@ -16,6 +18,15 @@ from .models import Container, Instrument
 log = logging.getLogger(__name__)
 
 VALID_STATES = {'loaded', 'running', 'finished', 'stopped', 'paused', 'error'}
+
+BUTTON_COLOR_STATE = {
+    'loaded': {'red': False, 'green': False, 'blue': True},    # blue
+    'running': {'red': False, 'green': True, 'blue': True},    # teal
+    'finished': {'red': False, 'green': True, 'blue': False},  # green
+    'stopped': {'red': False, 'green': False, 'blue': True},   # blue
+    'paused': {'red': False, 'green': True, 'blue': True},     # teal w/ flash
+    'error': {'red': True, 'green': False, 'blue': False},     # red
+}
 
 
 class SessionManager(object):
@@ -50,6 +61,8 @@ class Session(object):
         self.containers = None
 
         self.startTime = None
+
+        self._paused_flash_timer = None
 
         self.refresh()
 
@@ -174,7 +187,6 @@ class Session(object):
         return self
 
     def resume(self):
-
         robot.resume()
         self.set_state('running')
         return self
@@ -193,7 +205,6 @@ class Session(object):
         _unsubscribe = subscribe(types.COMMAND, on_command)
         self.startTime = now()
         self.set_state('running')
-
         try:
             self.resume()
             if self._is_json_protocol:
@@ -271,6 +282,36 @@ class Session(object):
 
     def _on_state_changed(self):
         publish(Session.TOPIC, self._snapshot())
+        self._set_button_light_from_state()
+
+    def _set_button_light_from_state(self):
+        '''
+        Sets the color of the OT2's front button, based off the state of the
+        session. Each session is assigned a color within the BUTTON_COLOR_STATE
+        dictionary.
+
+        If the state is 'paused', then the button-light will flash on/off every
+        second. Once the state changes to something other than `paused`, the
+        flashing stops
+        '''
+        if self.state == 'paused' and self._paused_flash_timer is None:
+            def _button_off():
+                # turn the button-light OFF
+                gpio.set_button_light(red=False, green=False, blue=False)
+                self._paused_flash_timer = Timer(0.666, _button_on)
+                self._paused_flash_timer.start()
+
+            def _button_on():
+                gpio.set_button_light(**BUTTON_COLOR_STATE[self.state])
+                self._paused_flash_timer = Timer(0.666, _button_off)
+                self._paused_flash_timer.start()
+
+            _button_on()
+        else:
+            if self._paused_flash_timer:
+                self._paused_flash_timer.cancel()
+            self._paused_flash_timer = None
+            gpio.set_button_light(**BUTTON_COLOR_STATE[self.state])
 
 
 def _accumulate(iterable):

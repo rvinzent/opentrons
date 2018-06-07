@@ -12,6 +12,7 @@ import atexit
 import optparse
 from opentrons import robot
 from opentrons.drivers.smoothie_drivers.driver_3_0 import SmoothieError
+from opentrons.drivers.rpi_drivers import gpio
 
 
 def setup(motor_current, max_speed):
@@ -132,11 +133,11 @@ if __name__ == '__main__':
         run_y_axis()
     except KeyboardInterrupt:
         print("Test Cancelled")
-        robot._driver.turn_on_blue_button_light()
+        gpio.set_button_light(red=False, green=False, blue=True)  # blue
         exit()
     except Exception as e:
-        robot._driver.turn_on_red_button_light()
+        gpio.set_button_light(red=True, green=False, blue=False)  # red
         print("FAIL: {}".format(e))
 
-    robot._driver._set_button_light(red=False, green=True, blue=False)
+    gpio.set_button_light(red=False, green=True, blue=False)  # green
     print("PASS")

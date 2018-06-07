@@ -221,6 +221,7 @@ def main():
         log.debug("Starting Opentrons server application on {}:{}".format(
             args.hostname, args.port))
 
+    robot.turn_on_button_light()
     try:
         robot.connect()
     except Exception as e:

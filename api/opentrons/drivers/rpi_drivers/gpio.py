@@ -150,3 +150,33 @@ def initialize():
 
     for pin in sorted(INPUT_PINS.values()):
         _enable_pin(pin, IN)
+
+
+def set_button_light(red=False, green=False, blue=False):
+    color_pins = {
+        OUTPUT_PINS['RED_BUTTON']: red,
+        OUTPUT_PINS['GREEN_BUTTON']: green,
+        OUTPUT_PINS['BLUE_BUTTON']: blue
+    }
+    for pin, state in color_pins.items():
+        if state:
+            set_high(pin)
+        else:
+            set_low(pin)
+
+
+def turn_on_rail_lights():
+    set_high(OUTPUT_PINS['FRAME_LEDS'])
+
+
+def turn_off_rail_lights():
+    set_low(OUTPUT_PINS['FRAME_LEDS'])
+
+
+def read_button(self):
+    # button is normal-HIGH, so invert
+    return not bool(read(INPUT_PINS['BUTTON_INPUT']))
+
+
+def read_window_switches(self):
+    return bool(read(INPUT_PINS['WINDOW_INPUT']))

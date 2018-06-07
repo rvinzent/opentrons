@@ -162,6 +162,8 @@ async def move(request):
     req = await request.text()
     data = json.loads(req)
 
+    robot.turn_on_button_light()  # make sure light is BLUE
+
     target, point, mount, model, message, error = _validate_move_data(data)
     if error:
         status = 400
@@ -206,6 +208,8 @@ def _move_mount(mount, point):
     """
     carriage = robot._actuators[mount]['carriage']
 
+    robot.turn_on_button_light()  # make sure light is BLUE
+
     # Home both carriages, to prevent collisions and to ensure that the other
     # mount doesn't block the one being moved (mount moves are primarily for
     # changing pipettes, so we don't want the other pipette blocking access)
@@ -249,6 +253,8 @@ async def home(request):
     data = json.loads(req)
 
     target = data.get('target')
+
+    robot.turn_on_button_light()  # make sure light is BLUE
 
     if target in ['robot', 'pipette']:
 

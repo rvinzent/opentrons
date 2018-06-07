@@ -4,6 +4,7 @@ import socket
 import subprocess
 
 from opentrons import robot
+from opentrons.drivers.rpi_drivers import gpio
 from opentrons.util import environment
 
 
@@ -51,8 +52,8 @@ def _erase_data(filepath):
 
 
 def _reset_lights():
-    robot._driver.turn_off_rail_lights()
-    robot._driver._set_button_light(blue=True)
+    gpio.turn_off_rail_lights()
+    gpio.set_button_light(blue=True)
 
 
 def _get_state_of_inputs():
@@ -64,8 +65,8 @@ def _get_state_of_inputs():
         if ax in 'XYZA'  # only test gantry axes
     }
     return {
-        'button': robot._driver.read_button(),
-        'windows': robot._driver.read_window_switches(),
+        'button': gpio.read_button(),
+        'windows': gpio.read_window_switches(),
         'probe': probe,
         'endstops': endstops
     }
@@ -73,9 +74,9 @@ def _get_state_of_inputs():
 
 def _set_lights(state):
     if state['windows']:
-        robot._driver.turn_off_rail_lights()
+        gpio.turn_off_rail_lights()
     else:
-        robot._driver.turn_on_rail_lights()
+        gpio.turn_on_rail_lights()
     red, green, blue = (False, False, False)
     if any(state['endstops'].values()):
         red = True
@@ -83,7 +84,7 @@ def _set_lights(state):
         green = True
     if state['button']:
         blue = True
-    robot._driver._set_button_light(red=red, green=green, blue=blue)
+    gpio.set_button_light(red=red, green=green, blue=blue)
 
 
 def run_quiet_process(command):

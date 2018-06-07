@@ -233,6 +233,8 @@ async def run_jog(data):
     direction = data.get('direction')
     step = data.get('step')
 
+    robot.turn_on_button_light()  # make sure light is BLUE
+
     if axis not in ('x', 'y', 'z'):
         message = '"axis" must be "x", "y", or "z"'
         status = 400
@@ -270,6 +272,8 @@ async def move(data):
     """
     point_name = data.get('point')
     point = safe_points().get(point_name)
+
+    robot.turn_on_button_light()  # make sure light is BLUE
 
     if point and len(point) == 3:
         mount = 'left' if session.current_mount == 'Z' else 'right'

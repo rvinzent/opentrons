@@ -11,6 +11,7 @@ from opentrons.containers import Container
 from opentrons.data_storage import database, old_container_loading,\
     database_migration
 from opentrons.drivers.smoothie_drivers import driver_3_0
+from opentrons.drivers.rpi_drivers import gpio
 from opentrons.robot.mover import Mover
 from opentrons.robot.robot_configs import load
 from opentrons.trackers import pose_tracker
@@ -301,16 +302,14 @@ class Robot(object):
             log.debug("{}: {}".format(mount, self.model_by_mount[mount]))
 
     def turn_on_button_light(self):
-        self._driver.turn_on_blue_button_light()
-
-    def turn_off_button_light(self):
-        self._driver.turn_off_button_light()
+        # this method is called by the container, so keep in place
+        gpio.set_button_light(red=False, blue=True, green=False)
 
     def turn_on_rail_lights(self):
-        self._driver.turn_on_rail_lights()
+        gpio.turn_on_rail_lights()
 
     def turn_off_rail_lights(self):
-        self._driver.turn_off_rail_lights()
+        gpio.turn_off_rail_lights()
 
     def identify(self, seconds):
         """
@@ -318,10 +317,10 @@ class Robot(object):
         """
         from time import sleep
         for i in range(seconds):
-            self.turn_off_button_light()
-            sleep(0.25)
-            self.turn_on_button_light()
-            sleep(0.25)
+            gpio.set_button_light(red=False, green=False, blue=False)  # off
+            sleep(0.5)
+            gpio.set_button_light(red=False, green=False, blue=True)   # blue
+            sleep(0.5)
 
     def setup_gantry(self):
         driver = self._driver
@@ -589,7 +588,7 @@ class Robot(object):
         Parameters
         ----------
         location : one of the following:
-            1. :class:`Placeable` (i.e. Container, Deck, Slot, Well) — will
+            1. :class:`Placeable` (i.e. Container, Deck, Slot, Well) — will
             move to the origin of a container.
             2. :class:`Vector` move to the given coordinate in Deck coordinate
             system.
