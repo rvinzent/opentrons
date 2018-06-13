@@ -38,6 +38,7 @@ RUN apk add --update \
       py3-zmq \
       py3-urwid \
       py3-numpy \
+      avrdude \
       ffmpeg \
       mpg123 \
       && rm -rf /var/cache/apk/*
