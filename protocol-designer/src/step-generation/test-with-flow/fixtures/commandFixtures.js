@@ -7,6 +7,16 @@ export const replaceTipCommands = (tip: number | string): Array<Command> => [
   pickUpTip(tip)
 ]
 
+export const airGap = (
+  volume: number
+): Command => ({
+  command: 'air-gap',
+  params: {
+    pipette: 'p300SingleId',
+    volume
+  }
+})
+
 export const dropTip = (
   tip: number | string, // TODO IMMEDIATELY should this be well?: string & default to A1?
   params?: {| pipette?: string, labware?: string |}

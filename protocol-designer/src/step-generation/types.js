@@ -38,6 +38,8 @@ export type TransferLikeFormDataFields = {
   changeTip: ChangeTipOptions,
   /** Disposal volume is added to the volume of the first aspirate of each asp-asp-disp cycle */
   disposalVolume: ?number,
+  /** Air gap occurs after each aspirate */
+  airGapVolume: ?number,
 
   // ===== DISPENSE SETTINGS =====
   /** Touch tip in destination well after dispense */
@@ -175,6 +177,11 @@ export type RobotState = {|
       }
     }
   }
+|}
+
+export type AirGapArgs = {|
+  pipette: string,
+  volume: number
 |}
 
 export type PipetteLabwareFields = {|

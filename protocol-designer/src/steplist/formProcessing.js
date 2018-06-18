@@ -141,6 +141,10 @@ function _vapTransferLike (
     ? Number('aspirate--disposal-vol--volume') // TODO handle unparseable
     : null
 
+  const airGapVolume = formData['aspirate--air-gap--checkbox']
+    ? Number('aspirate--air-gap--volume') // TODO handle unparseable
+    : null
+
   const changeTip = formData['aspirate--change-tip'] || DEFAULT_CHANGE_TIP_OPTION
 
   const commonFields = {
@@ -154,6 +158,7 @@ function _vapTransferLike (
     changeTip,
     delayAfterDispense,
     disposalVolume,
+    airGapVolume,
     mixInDestination,
     preWetTip: formData['aspirate--pre-wet-tip'] || false,
     touchTipAfterAspirate: formData['aspirate--touch-tip'] || false,

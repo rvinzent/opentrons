@@ -373,7 +373,36 @@ describe('advanced options', () => {
         cmd.dispense('B1', 50, {labware: 'destPlateId'})
       ])
     })
-    test('air gap => ???') // TODO determine behavior
+    test('air gap', () => {
+      const volume = 350
+      const airGapVolume = 30
+      const firstTransferVolume = 300 - airGapVolume // don't exceed pipette max
+      const secondTransferVolume = volume - firstTransferVolume
+
+      transferArgs = {
+        ...transferArgs,
+        volume,
+        airGapVolume
+      }
+
+      const result = transfer(transferArgs)(robotInitialState)
+
+      expect(result.commands).toEqual([
+        cmd.aspirate('A1', firstTransferVolume),
+        cmd.airGap(airGapVolume),
+        // TODO IMMEDIATELY: should this dispense include the air gap (=300 total)?
+        // Or should it be a blowout, without a dispense?
+        cmd.dispense('B1', firstTransferVolume, {labware: 'destPlateId'}),
+        cmd.blowout('destPlateId', {well: 'B1'}),
+
+        cmd.aspirate('A1', secondTransferVolume),
+        cmd.airGap(airGapVolume),
+        cmd.dispense('B1', secondTransferVolume, {labware: 'destPlateId'}),
+        cmd.blowout('destPlateId', {well: 'B1'})
+      ])
+    })
+    // TODO: Ian 2018-06-18 air gap with excessive volume error
+
     test('disposal volume => ???') // TODO determine behavior
   })
 

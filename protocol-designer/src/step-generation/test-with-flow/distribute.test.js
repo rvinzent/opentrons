@@ -33,6 +33,7 @@ beforeEach(() => {
     preWetTip: false,
     touchTipAfterAspirate: false,
     disposalVolume: null,
+    airGapVolume: null,
     mixBeforeAspirate: null,
 
     touchTipAfterDispense: false,

@@ -6,6 +6,7 @@ import dispense from './dispense'
 import {mixUtil} from './mix'
 import replaceTip from './replaceTip'
 import {reduceCommandCreators} from './utils'
+import airGap from './airGap'
 import touchTip from './touchTip'
 import * as errorCreators from './errorCreators'
 import type {TransferFormData, RobotState, CommandCreator} from './'
@@ -57,6 +58,13 @@ const transfer = (data: TransferFormData): CommandCreator => (prevRobotState: Ro
   const subTransferVolumes: Array<number> = Array(chunksPerSubTransfer - 1)
     .fill(effectiveTransferVol)
     .concat(lastSubTransferVol)
+
+  const airGapCommands = data.airGapVolume
+    ? [airGap({
+      pipette: data.pipette,
+      volume: data.airGapVolume
+    })]
+    : []
 
   const sourceDestPairs = zip(data.sourceWells, data.destWells)
   const commandCreators = flatMap(
@@ -125,6 +133,7 @@ const transfer = (data: TransferFormData): CommandCreator => (prevRobotState: Ro
               well: sourceWell
             }),
             ...touchTipAfterAspirateCommands,
+            ...airGapCommands,
             dispense({
               pipette: data.pipette,
               volume: subTransferVol,
