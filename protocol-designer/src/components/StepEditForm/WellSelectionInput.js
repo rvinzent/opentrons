@@ -3,11 +3,12 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {FormGroup, InputField} from '@opentrons/components'
 import {selectors as steplistSelectors} from '../../steplist'
-import {getFieldErrors, type StepFieldName} from '../../steplist/fieldLevel'
+import {getFieldErrors} from '../../steplist/fieldLevel'
 import {openWellSelectionModal, type OpenWellSelectionModalPayload} from '../../well-selection/actions'
 import type {BaseState, ThunkDispatch} from '../../types'
 import styles from './StepEditForm.css'
 import {showFieldErrors} from './StepFormField'
+import type {WellFieldNames, LabwareFieldNames} from '../../form-types'
 import type {FocusHandlers} from './index'
 
 // TODO Ian 2018-04-27 use selector to get num wells * 8 if multi-channel
@@ -17,9 +18,9 @@ const formatWellCount = (wells: Array<string>, selectedPipette: any) => {
 }
 
 type WellSelectionInputOP = {
-  name: StepFieldName,
-  pipetteFieldName: StepFieldName,
-  labwareFieldName: StepFieldName
+  name: WellFieldNames,
+  pipetteFieldName: 'pipette',
+  labwareFieldName: LabwareFieldNames
 } & FocusHandlers
 type WellSelectionInputSP = {
   _selectedPipetteId?: ?string,
@@ -48,7 +49,7 @@ const WellSelectionInput = (props: WellSelectionInputProps) => (
 const WellSelectionInputSTP = (state: BaseState, ownProps: WellSelectionInputOP): WellSelectionInputSP => {
   const formData = steplistSelectors.getUnsavedForm(state)
   const selectedPipette = formData && formData[ownProps.pipetteFieldName]
-  const selectedWells = formData ? formData[ownProps.name] : []
+  const selectedWells = (formData && formData[ownProps.name]) || []
   return {
     _selectedPipetteId: selectedPipette,
     _selectedLabwareId: formData && formData[ownProps.labwareFieldName],

@@ -1,7 +1,6 @@
 // @flow
 import type {IconName} from '@opentrons/components'
 import type {ChangeTipOptions} from './step-generation'
-import type {StepFieldName} from './steplist/fieldLevel'
 
 export type StepIdType = number // TODO Ian 2018-05-10 change to string
 
@@ -21,7 +20,7 @@ export type StepType = $Keys<typeof stepIconsByType>
 
 export type FormModalFields = {|
   'step-name': string,
-  'step-details': string
+  'step-details': string,
 |}
 
 export type DelayFields = {|
@@ -104,10 +103,59 @@ export type PauseForm = {|
   'pause-message'?: string
 |}
 
+export type WellFieldNames = 'wells' | 'aspirate--wells' | 'dispense--wells'
+export type LabwareFieldNames = 'labware' | 'aspirate--labware' | 'dispense--labware'
+
 export type FormData = {
   stepType: StepType,
   id: StepIdType,
-  [StepFieldName]: any // TODO: form value processing to ensure type
+
+  'aspirate--labware'?: string,
+  'aspirate--wells'?: Array<string>,
+  'aspirate--pre-wet-tip'?: boolean,
+  'aspirate--air-gap--checkbox'?: boolean,
+  'aspirate--air-gap--volume'?: string,
+  'aspirate--mix--checkbox'?: boolean,
+  'aspirate--mix--volume'?: string,
+  'aspirate--mix--times'?: string,
+  'aspirate--disposal-vol--checkbox'?: boolean,
+  'aspirate--disposal-vol--volume'?: string,
+
+  'dispense--labware'?: string,
+  'dispense--wells'?: Array<string>,
+  'dispense--mix--checkbox'?: boolean,
+  'dispense--mix--volume'?: string,
+  'dispense--mix--times'?: string,
+
+  'labware'?: string,
+  'pipette'?: string,
+  'volume'?: string,
+  'times'?: string,
+  'wells'?: Array<string>,
+
+  'touch-tip'?: boolean,
+
+  'pause-for-amount-of-time'?: 'true' | 'false',
+  'pause-hour'?: string,
+  'pause-minute'?: string,
+  'pause-second'?: string,
+  'pause-message'?: string,
+
+  'dispense--delay--checkbox'?: boolean,
+  'dispense--delay-minutes'?: string,
+  'dispense--delay-seconds'?: string,
+
+  'dispense--blowout--checkbox'?: boolean,
+  'dispense--blowout--labware'?: string,
+
+  'aspirate--change-tip'?: ChangeTipOptions,
+  'aspirate--touch-tip'?: boolean,
+
+  'step-name': string,
+  'step-details': string,
+
+  // ???
+  'change-tip'?: boolean
 }
 //  | MixForm
 //  | PauseForm
