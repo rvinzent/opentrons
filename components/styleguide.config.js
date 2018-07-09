@@ -44,6 +44,10 @@ module.exports = {
       components: 'src/buttons/[A-Z]*.js'
     },
     {
+      name: 'Data Transfer',
+      components: 'src/data-transfer/[A-Z]*.js'
+    },
+    {
       name: 'Form Components',
       components: 'src/forms/[A-Z]*.js'
     },
