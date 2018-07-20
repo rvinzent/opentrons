@@ -121,6 +121,47 @@ class Mover:
             self._driver.unstick_axes(axes, distance=distance, speed=speed)
         return self.update_pose_from_driver(pose_tree)
 
+    def horizontal_arc(self, pose_tree, target, arc_center, clockwise=True):
+
+        def defaults(_x, _y, _z):
+            _x = _x if x is not None else 0
+            _y = _y if y is not None else 0
+            _z = _z if z is not None else 0
+            return _x, _y, _z
+
+        t_x, t_y, t_z = change_base(
+            pose_tree,
+            src=self._src,
+            dst=self._dst,
+            point=Point(
+                target.get('x', 0),
+                target.get('y', 0),
+                target.get('z', 0)))
+
+        c_x, c_y, _ = change_base(
+            pose_tree,
+            src=self._src,
+            dst=self._dst,
+            point=Point(
+                arc_center.get('x', 0),
+                arc_center.get('y', 0),
+                arc_center.get('z', 0)))
+
+        target = {}
+        arc_center = {}
+        if 'x' in self._axis_mapping:
+            target[self._axis_mapping['x']] = t_x
+            arc_center[self._axis_mapping['x']] = c_x
+
+        if 'y' in self._axis_mapping:
+            target[self._axis_mapping['y']] = t_y
+            arc_center[self._axis_mapping['y']] = c_y
+
+        if target and arc_center:
+            self._driver.horizontal_arc(target, arc_center, clockwise)
+
+        return update(pose_tree, self, Point(*defaults(t_x, t_y, t_z)))
+
     def axis_maximum(self, pose_tree, axis):
         assert axis in 'xyz', "axis value should be x, y or z"
         assert axis in self._axis_mapping, "mapping is not set for " + axis

@@ -1854,6 +1854,32 @@ class Pipette:
             point=(0, 0, mount_max_height))
         return pipette_max_height
 
+    def _horizonal_arc(self, pose_tree, target, arc_center, clockwise=True):
+        current_x, current_y, current_z = pose_tracker.absolute(
+            pose_tree, self)
+
+        tx = target.get('x', current_x)
+        ty = target.get('y', current_y)
+        cx = arc_center.get('x', current_x)
+        cy = arc_center.get('y', current_y)
+
+        dx, dy, dz = pose_tracker.change_base(
+            pose_tree,
+            src=self,
+            dst=self.mount)
+
+        tx, ty, tz = tx - dx, ty - dy, current_z - dz
+        cx, cy, cz = cx - dx, cy - dy, current_z - dz
+
+        if tx is not None or ty is not None:
+            pose_tree = self.robot.gantry.horizonal_arc(
+                pose_tree,
+                {'x': tx, 'y': ty, 'z': tz},
+                {'x': cx, 'y': cy, 'z': cz},
+                clockwise)
+
+        return pose_tree
+
     @property
     def type(self):
         return 'single' if self.channels == 1 else 'multi'
