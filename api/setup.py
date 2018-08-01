@@ -2,6 +2,7 @@
 # https://hynek.me/articles/sharing-your-labor-of-love-pypi-quick-and-dirty/
 import codecs
 import os
+import shutil
 from setuptools import setup, find_packages
 import json
 
@@ -42,7 +43,6 @@ INSTALL_REQUIRES = [
     'aiohttp==2.3.8',
     'numpy==1.12.1',
     'urwid==1.3.1']
-
 
 def read(*parts):
     """

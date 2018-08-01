@@ -1,22 +1,23 @@
 # Use this for local development on intel machines
 # FROM resin/amd64-alpine-python:3.6-slim-20180123
+# RUN mkdir -p /data/system
 
 # Use this for running on a robot
 FROM resin/raspberrypi3-alpine-python:3.6-slim-20180120
 
 ENV RUNNING_ON_PI=1
+ENV OT_IS_CONTAINERIZED=1
 # This is used by D-Bus clients such as Network Manager cli, announce_mdns
 # connecting to Host OS services
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 # Add persisted data directory where new python packages are being installed
+ENV OT_CONFIG_PATH=/data/system
 ENV PYTHONPATH=$PYTHONPATH/data/packages/usr/local/lib/python3.6/site-packages
-ENV PATH=$PATH:/data/packages/usr/local/bin
+ENV PATH=$PATH:/data/packages/usr/local/bin:$OT_CONFIG_PATH/scripts
 # Port name for connecting to smoothie over serial, i.e. /dev/ttyAMA0
 ENV OT_SMOOTHIE_ID=AMA
-ENV OT_SERVER_PORT=31950
-ENV OT_UPDATE_PORT=34000
-# File path to unix socket API server is listening
-ENV OT_SERVER_UNIX_SOCKET_PATH=/tmp/aiohttp.sock
+# dont commit this idiot
+# ENV ENABLE_VIRTUAL_SMOOTHIE=1
 
 # Static IPv6 used on Ethernet interface for USB connectivity
 ENV ETHERNET_NETWORK_PREFIX=169.254
@@ -26,7 +27,6 @@ ENV ETHERNET_NETWORK_PREFIX_LENGTH=16
 RUN apk add --update \
       util-linux \
       vim \
-      radvd \
       dropbear \
       dropbear-scp \
       gnupg \
@@ -62,10 +62,21 @@ RUN pip install --force-reinstall \
 ENV LABWARE_DEF /etc/labware
 ENV AUDIO_FILES /etc/audio
 ENV USER_DEFN_ROOT /data/user_storage/opentrons_data/labware
+
+COPY compute/container_setup.sh /usr/local/bin/container_setup.sh
+
+# TODO: move everything from the "compute" directory into the api or
+# TODO: update-server, and make the app copy files into these data/configs
+# TODO: directories on install (also, compute scripts into
+# TODO: $OT_CONFIG_PATH/scripts, which is included in PATH above)
+RUN ln -sf $OT_CONFIG_PATH/jupyter /root/.jupyter && \
+    ln -sf $OT_CONFIG_PATH/audio /etc/audio && \
+    rm /etc/nginx/nginx.conf && \
+    ln -sf $OT_CONFIG_PATH/nginx.conf /etc/nginx/nginx.conf && \
+    ln -sf $OT_CONFIG_PATH/inetd.conf /etc/inetd.conf
+
 COPY ./shared-data/robot-data /etc/robot-data
-COPY ./compute/conf/jupyter_notebook_config.py /root/.jupyter/
 COPY ./shared-data/definitions /etc/labware
-COPY ./audio/ /etc/audio
 COPY ./api /tmp/api
 COPY ./api-server-lib /tmp/api-server-lib
 COPY ./update-server /tmp/update-server
@@ -91,29 +102,18 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 RUN ln -sf /data/user_storage/opentrons_data/95-opentrons-modules.rules /etc/udev/rules.d/95-opentrons-modules.rules
 
 # GPG public key to verify signed packages
-COPY ./compute/opentrons.asc .
-RUN gpg --import opentrons.asc && rm opentrons.asc
-
-# Everything you want in /usr/local/bin goes into compute/scripts
-COPY ./compute/scripts/* /usr/local/bin/
-
-# All configuration files live in compute/etc and dispatched here
-COPY ./compute/conf/inetd.conf /etc/
-COPY ./compute/conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./compute/static /usr/share/nginx/html
+# COPY ./compute/opentrons.asc .
+# RUN gpg --import opentrons.asc && rm opentrons.asc
 
 # Logo for login shell
 COPY ./compute/opentrons.motd /etc/motd
-
-# Replace placeholders with actual environment variable values
-RUN sed -i "s/{OT_SERVER_PORT}/$OT_SERVER_PORT/g" /etc/nginx/nginx.conf && \
-    sed -i "s#{OT_SERVER_UNIX_SOCKET_PATH}#$OT_SERVER_UNIX_SOCKET_PATH#g" /etc/nginx/nginx.conf
 
 # All newly installed packages will go to persistent storage
 ENV PIP_ROOT /data/packages
 
 # Generate keys for dropbear
-RUN ssh_key_gen.sh
+COPY ./compute/ssh_key_gen.sh /tmp/
+RUN /tmp/ssh_key_gen.sh
 
 # Generate the id that we will later check to see if that's the
 # new container and that local Opentrons API package should be deleted
@@ -121,8 +121,6 @@ RUN ssh_key_gen.sh
 # because they are sometimes not picked up from PID 1
 RUN echo "export CONTAINER_ID=$(uuidgen)" >> /etc/profile && \
     echo "export OT_SETTINGS_DIR=$OT_SETTINGS_DIR" >> /etc/profile && \
-    echo "export OT_SERVER_PORT=$OT_SERVER_PORT" >> /etc/profile && \
-    echo "export OT_SERVER_UNIX_SOCKET_PATH=$OT_SERVER_UNIX_SOCKET_PATH" >> /etc/profile && \
     echo "export PIP_ROOT=$PIP_ROOT" >> /etc/profile && \
     echo "export LABWARE_DEF=$LABWARE_DEF" >> /etc/profile && \
     echo "export USER_DEFN_ROOT=$USER_DEFN_ROOT" >> /etc/profile && \
@@ -131,7 +129,7 @@ RUN echo "export CONTAINER_ID=$(uuidgen)" >> /etc/profile && \
     echo "export DBUS_SYSTEM_BUS_ADDRESS=$DBUS_SYSTEM_BUS_ADDRESS" >> /etc/profile && \
     echo "export PYTHONPATH=$PYTHONPATH" >> /etc/profile && \
     echo "export PATH=$PATH" >> /etc/profile && \
-    echo "export RUNNING_ON_PI=$RUNNING_ON_PI" >> /etc/profile && \
+    #echo "export RUNNING_ON_PI=$RUNNING_ON_PI" >> /etc/profile && \
     echo "export OT_SMOOTHIE_ID=$OT_SMOOTHIE_ID" >> /etc/profile
 
 # Updates, HTTPS (for future use), API, SSH for link-local over USB
@@ -146,6 +144,6 @@ ENV UDEV on
 #   docker run --name opentrons -it opentrons /bin/sh
 # or uncomment:
 # CMD ["python", "-c", "while True: pass"]
-CMD ["bash", "-c", "source /etc/profile && setup.sh && exec start.sh"]
+CMD ["bash", "-c", "source /etc/profile && container_setup.sh && setup.sh && exec start.sh"]
 
 # Using Resin base image's default entrypoint and init system- tini

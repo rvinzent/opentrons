@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import shutil
 from opentrons.robot.robot import Robot
 from opentrons.instruments import pipette_config
 from opentrons import instruments as inst, containers as cnt
@@ -22,6 +23,19 @@ if version < (3, 5):
         'opentrons requires Python 3.5 or above, this is {0}.{1}'.format(
             version[0], version[1]))
 
+def provision():
+    """ Should be called the first time the server is run in a container.
+
+    Should not be called if the server is not running in a container.
+    """
+    if not os.getenv('OT_IS_CONTAINERIZED', None):
+        raise RuntimeError("Do not call opentrons.provision() outside of a container")
+    resource_dir = os.path.join(HERE, 'resources')
+    config_dir = os.environ.get('OT_CONFIG_PATH', '/data/system')
+    if os.path.exists(config_dir):
+        shutil.rmtree(config_dir)
+    shutil.copytree(resource_dir, config_dir)
+
 if not ff.split_labware_definitions():
     database_migration.check_version_and_perform_necessary_migrations()
 robot = Robot()
@@ -31,7 +45,6 @@ def reset():
     global robot
     robot = Robot()
     return robot
-
 
 class ContainersWrapper(object):
     def __init__(self, robot):
