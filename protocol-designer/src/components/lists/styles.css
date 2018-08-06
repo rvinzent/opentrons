@@ -3,10 +3,16 @@
 .pd_titled_list {
   margin: 0.4rem 0.125rem;
   color: var(--c-dark-gray);
-  box-shadow: 0 0.125rem 0.5rem color(var(--c-black) alpha(0.25));
+  box-shadow: var(--shadow-lvl-1);
+
+  & > div {
+    /* title of the titled list */
+    min-height: 3.5rem;
+  }
 }
 
 .pd_list_item {
+  min-height: 2.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -24,4 +30,10 @@
 
 .border {
   border-top: var(--bd-light);
+}
+
+.hoverable {
+  &:hover {
+    @apply --outline-highlight;
+  }
 }

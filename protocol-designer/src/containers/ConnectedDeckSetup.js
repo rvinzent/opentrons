@@ -7,11 +7,11 @@ import styles from './Deck.css'
 
 import IngredientSelectionModal from '../components/IngredientSelectionModal.js'
 import LabwareContainer from '../containers/LabwareContainer.js'
-import LabwareDropdown from '../containers/LabwareDropdown.js'
+import LabwareSelectionModal from '../components/LabwareSelectionModal'
 
 import {selectors} from '../labware-ingred/reducers'
 import * as actions from '../labware-ingred/actions'
-import {selectors as steplistSelectors} from '../steplist'
+import {selectors as steplistSelectors, START_TERMINAL_ITEM_ID} from '../steplist'
 import type {BaseState, ThunkDispatch} from '../types'
 
 const ingredSelModIsVisible = activeModals => activeModals.ingredientSelection && activeModals.ingredientSelection.slot
@@ -24,7 +24,9 @@ type StateProps = {
 type DispatchProps = {cancelMoveLabwareMode: () => mixed}
 
 const mapStateToProps = (state: BaseState): StateProps => ({
-  deckSetupMode: steplistSelectors.deckSetupMode(state),
+  deckSetupMode: (
+    steplistSelectors.getSelectedTerminalItemId(state) === START_TERMINAL_ITEM_ID
+  ),
   // TODO SOON remove all uses of the `activeModals` selector
   ingredSelectionMode: !!ingredSelModIsVisible(selectors.activeModals(state))
 })
@@ -62,7 +64,7 @@ class DeckSetup extends React.Component<StateProps & DispatchProps> {
     // this will go away
     return (
       <React.Fragment>
-        <LabwareDropdown />
+        <LabwareSelectionModal />
         {this.props.ingredSelectionMode && <IngredientSelectionModal />}
         <div className={styles.deck_header}>{DECK_HEADER}</div>
         {this.renderDeck()}
