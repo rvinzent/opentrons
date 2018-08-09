@@ -7,7 +7,6 @@ SHELL := /bin/bash
 PATH := $(shell yarn bin):$(PATH)
 
 API_DIR := api
-API_LIB_DIR := api-server-lib
 SHARED_DATA_DIR := shared-data
 UPDATE_SERVER_DIR := update-server
 
@@ -25,7 +24,6 @@ endif
 .PHONY: install
 install:
 	pip install pipenv==11.6.8
-	$(MAKE) -C $(API_LIB_DIR) install
 	$(MAKE) -C $(API_DIR) install
 	$(MAKE) -C $(UPDATE_SERVER_DIR) install
 	yarn
@@ -47,7 +45,6 @@ install-types:
 
 .PHONY: push-api
 push-api:
-	$(MAKE) -C $(API_LIB_DIR) push
 	$(MAKE) -C $(API_DIR) push
 	$(MAKE) -C $(API_DIR) restart
 
@@ -67,7 +64,6 @@ test: test-py test-js
 test-py:
 #	lerna exec --scope @opentrons/update-server --since origin/edge -- $(MAKE) -C .. test
 	$(MAKE) -C api test
-	$(MAKE) -C api-server-lib test
 
 .PHONY: test-js
 test-js:
@@ -84,7 +80,6 @@ lint: lint-py lint-js lint-css
 .PHONY: lint-py
 lint-py:
 	$(MAKE) -C $(API_DIR) lint
-	$(MAKE) -C $(API_LIB_DIR) lint
 	$(MAKE) -C $(UPDATE_SERVER_DIR) lint
 
 .PHONY: lint-js

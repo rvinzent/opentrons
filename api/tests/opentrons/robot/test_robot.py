@@ -39,7 +39,7 @@ def test_configurable_mount_offsets():
     robot.config = old_config
 
 
-def test_pos_tracker_persistance(virtual_smoothie_env):
+def test_pos_tracker_persistance(dummy_db, virtual_smoothie_env):
     robot.reset()
     p300 = instruments.P300_Single(mount='left')
     plate = containers_load(robot, 'trough-12row', '5')
@@ -178,7 +178,7 @@ def test_drop_tip_default_trash(virtual_smoothie_env):
             strategy='arc')
 
 
-def test_calibrate_labware(virtual_smoothie_env, monkeypatch):
+def test_calibrate_labware(dummy_db, virtual_smoothie_env, monkeypatch):
     import tempfile
     temp = tempfile.mkdtemp()
     monkeypatch.setenv('USER_DEFN_ROOT', temp)
@@ -200,7 +200,7 @@ def test_calibrate_labware(virtual_smoothie_env, monkeypatch):
 
 
 def test_calibrate_labware_new(
-        virtual_smoothie_env, split_labware_def):
+        dummy_db, virtual_smoothie_env, split_labware_def):
     robot.reset()
 
     plate = labware.load('96-flat', '5')

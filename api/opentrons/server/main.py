@@ -11,16 +11,11 @@ from opentrons import robot, __version__
 from opentrons.api import MainRouter
 from opentrons.server.rpc import Server
 from opentrons.server import endpoints as endp
-from opentrons.server.endpoints import (wifi, control)
+from opentrons.server.endpoints import wifi, control, update
 from opentrons.config import feature_flags as ff
 from opentrons.util import environment
 from opentrons.deck_calibration import endpoints as dc_endp
 from logging.config import dictConfig
-try:
-    from ot2serverlib import endpoints
-except ModuleNotFoundError:
-    print("Module ot2serverlib not found--using fallback implementation")
-    from opentrons.server.endpoints import serverlib_fallback as endpoints
 
 from argparse import ArgumentParser
 
@@ -169,17 +164,17 @@ def init(loop=None):
     server.app.router.add_post(
         '/camera/picture', control.take_picture)
     server.app.router.add_post(
-        '/server/update', endpoints.update_api)
+        '/server/update', update.update_api)
     server.app.router.add_post(
-        '/server/update/firmware', endpoints.update_firmware)
+        '/server/update/firmware', update.update_firmware)
     server.app.router.add_get(
-        '/server/update/ignore', endpoints.get_ignore_version)
+        '/server/update/ignore', update.get_ignore_version)
     server.app.router.add_post(
-        '/server/update/ignore', endpoints.set_ignore_version)
+        '/server/update/ignore', update.set_ignore_version)
     server.app.router.add_static(
         '/logs', log_file_path, show_index=True)
     server.app.router.add_post(
-        '/server/restart', endpoints.restart)
+        '/server/restart', update.restart)
     server.app.router.add_post(
         '/calibration/deck/start', dc_endp.start)
     server.app.router.add_post(
@@ -215,8 +210,7 @@ def setup_udev_rules_file():
     This rules file in opentrons_data is symlinked into udev rules directory
     NOTE: This setup can also be run after python package install (which would
     mean that it is performed only once, which might be sufficient)
-    instead of running it every time on server boot. Revisit this once the
-    redundant api-server-lib setup has been fixed
+    instead of running it every time on server boot.
     """
     import shutil
     import subprocess

@@ -4,8 +4,6 @@ import tempfile
 from aiohttp import web
 from opentrons.server.main import init
 from opentrons.server.endpoints import update
-import ot2serverlib
-from ot2serverlib import ignore_update
 
 
 async def test_restart(virtual_smoothie_env, monkeypatch, loop, test_client):
@@ -13,7 +11,7 @@ async def test_restart(virtual_smoothie_env, monkeypatch, loop, test_client):
 
     async def mock_restart(request):
         return web.json_response(test_data)
-    monkeypatch.setattr(ot2serverlib.endpoints, 'restart', mock_restart)
+    monkeypatch.setattr(update, 'restart', mock_restart)
 
     app = init(loop)
     cli = await loop.create_task(test_client(app))
@@ -37,7 +35,7 @@ async def test_update(virtual_smoothie_env, monkeypatch, loop, test_client):
 
     async def mock_install(filename, loop):
         return msg
-    monkeypatch.setattr(ot2serverlib, '_install', mock_install)
+    monkeypatch.setattr(update, '_install', mock_install)
     monkeypatch.setattr(update, '_update_firmware', mock_install)
 
     app = init(loop)
@@ -77,7 +75,7 @@ async def test_ignore_updates(
     # Test that values are set correctly
     ignore_name = "testy_ignore.json"
     tmpdir = tempfile.mkdtemp("files")
-    ignore_update.filepath = os.path.join(tmpdir, ignore_name)
+    update.ignored_updates_file = os.path.join(tmpdir, ignore_name)
 
     ignore = {'version': '3.1.3'}
     r1 = await cli.post('server/update/ignore', json=ignore)

@@ -35,7 +35,6 @@ current_id=$CONTAINER_ID
 if [ "$previous_id" != "$current_id" ] ; then
   echo 'First start of a new container. Deleting local Opentrons installation'
   rm -rf /data/packages/usr/local/lib/python3.6/site-packages/opentrons*
-  rm -rf /data/packages/usr/local/lib/python3.6/site-packages/ot2serverlib*
   rm -rf /data/packages/usr/local/lib/python3.6/site-packages/otupdate*
   echo "$current_id" > /data/id
 fi

@@ -11,7 +11,7 @@ firmware = $(wildcard smoothie/*.hex)
 
 # python and pipenv config
 python := pipenv run python
-pipenv_opts := --dev
+pipenv_opts := --dev --skip-lock
 pipenv_opts += $(and $(CI),--ignore-pipfile)
 
 .PHONY: install

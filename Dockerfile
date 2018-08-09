@@ -67,19 +67,16 @@ COPY ./compute/conf/jupyter_notebook_config.py /root/.jupyter/
 COPY ./shared-data/definitions /etc/labware
 COPY ./audio/ /etc/audio
 COPY ./api /tmp/api
-COPY ./api-server-lib /tmp/api-server-lib
 COPY ./update-server /tmp/update-server
 COPY ./compute/avahi_tools /tmp/avahi_tools
 
 # When adding more python packages make sure to use setuptools to keep
 # packaging consistent across environments
 ENV PIPENV_VENV_IN_PROJECT=true
-RUN pipenv install /tmp/api-server-lib --system && \
-    pipenv install /tmp/api --system && \
+RUN pipenv install /tmp/api --system && \
     pipenv install /tmp/update-server --system && \
     pip install /tmp/avahi_tools && \
     rm -rf /tmp/api && \
-    rm -rf /tmp/api-server-lib && \
     rm -rf /tmp/update-server && \
     rm -rf /tmp/avahi_tools
 

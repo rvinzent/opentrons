@@ -32,14 +32,6 @@ This server needs to:
 - provide other endpoints for modifying configurations such as feature-flags 
         and robot configs
 
-For backward compatibility, core update endpoints must also be supported in 
-the API server, in case the update server is not present. Shared 
-implementations should live in "api-server-lib". Imports of `opentrons`
-should be limited, and wrapped in a `try...except` block with graceful
-failure (in general, all care should be taken to ensure that this server
-*can not* fail in its core task: bootstrapping itself from any prior
-version).
-
 Steps for manually testing (warning: this can modify your system install of `otupdate`):
 - run `make dev` with the "version" in package.json unchanged (this starts the update server on http://127.0.0.1:34000)
 - change "version" to a different value and `make wheel` in another terminal

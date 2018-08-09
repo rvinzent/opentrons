@@ -13,7 +13,7 @@ def non_simulating():
     robot._driver.simulating = True
 
 
-def test_load_container_onto_magdeck():
+def test_load_container_onto_magdeck(dummy_db):
     module_name = 'magdeck'
     slot = '1'
 
@@ -24,7 +24,7 @@ def test_load_container_onto_magdeck():
     assert test_container.parent == md.labware
 
 
-def test_load_container_onto_tempdeck():
+def test_load_container_onto_tempdeck(dummy_db):
     module_name = 'tempdeck'
     slot = '2'
 
@@ -35,7 +35,7 @@ def test_load_container_onto_tempdeck():
     assert test_container.parent == md.labware
 
 
-def test_simulating(virtual_smoothie_env, monkeypatch):
+def test_simulating(dummy_db, virtual_smoothie_env, monkeypatch):
     connected = False
 
     def mock_connect(self, port):
@@ -48,7 +48,7 @@ def test_simulating(virtual_smoothie_env, monkeypatch):
 
 
 def test_run_magdeck_connected(
-        non_simulating, virtual_smoothie_env, monkeypatch):
+        dummy_db, non_simulating, virtual_smoothie_env, monkeypatch):
     connected = False
 
     def mock_connect(self, port):
@@ -72,7 +72,7 @@ def test_run_magdeck_connected(
 
 
 def test_run_tempdeck_connected(
-        non_simulating, virtual_smoothie_env, monkeypatch):
+        dummy_db, non_simulating, virtual_smoothie_env, monkeypatch):
     connected = False
 
     def mock_connect(self, port):
