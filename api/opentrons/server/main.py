@@ -12,6 +12,8 @@ from opentrons.api import MainRouter
 from opentrons.server.rpc import Server
 from opentrons.server import endpoints as endp
 from opentrons.server.endpoints import (wifi, control)
+from opentrons.server.endpoints.serverlib_fallback \
+    import update_module_firmware
 from opentrons.config import feature_flags as ff
 from opentrons.util import environment
 from opentrons.deck_calibration import endpoints as dc_endp
@@ -173,7 +175,7 @@ def init(loop=None):
     server.app.router.add_post(
         '/server/update/firmware', endpoints.update_firmware)
     server.app.router.add_post(
-        '/modules/{serial}/update', endpoints.update_module_firmware)
+        '/modules/{serial}/update', update_module_firmware)
     server.app.router.add_get(
         '/server/update/ignore', endpoints.get_ignore_version)
     server.app.router.add_post(
