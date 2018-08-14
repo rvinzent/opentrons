@@ -46,8 +46,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
     return {
       update: {
         ...payload.update,
-        'aspirate_wells': null
-      }
+        'aspirate_wells': null,
+      },
     }
   }
 
@@ -59,8 +59,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
     return {
       update: {
         ...payload.update,
-        'dispense_wells': null
-      }
+        'dispense_wells': null,
+      },
     }
   }
 
@@ -72,8 +72,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
     return {
       update: {
         ...payload.update,
-        'wells': null
-      }
+        'wells': null,
+      },
     }
   }
 
@@ -108,8 +108,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
         return {
           update: {
             ...payload.update,
-            wells: null
-          }
+            wells: null,
+          },
         }
       }
 
@@ -118,8 +118,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
         update: {
           ...payload.update,
           'aspirate_wells': null,
-          'dispense_wells': null
-        }
+          'dispense_wells': null,
+        },
       }
     }
 
@@ -137,8 +137,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
         return {
           update: {
             ...payload.update,
-            wells: _getAllWells(unsavedForm.wells, labwareType)
-          }
+            wells: _getAllWells(unsavedForm.wells, labwareType),
+          },
         }
       }
 
@@ -153,8 +153,8 @@ function handleFormChange (payload: ChangeFormPayload, getState: GetState): Chan
         update: {
           ...payload.update,
           'aspirate_wells': _getAllWells(unsavedForm['aspirate_wells'], sourceLabwareType),
-          'dispense_wells': _getAllWells(unsavedForm['dispense_wells'], destLabwareType)
-        }
+          'dispense_wells': _getAllWells(unsavedForm['dispense_wells'], destLabwareType),
+        },
       }
     }
   }

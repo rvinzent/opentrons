@@ -5,7 +5,7 @@ import {goBack} from 'react-router-redux'
 import {AlertModal} from '@opentrons/components'
 
 import {
-  actions as robotActions
+  actions as robotActions,
 } from '../../robot'
 
 type Props = {
@@ -21,7 +21,7 @@ function ConfirmUploadModal (props: Props) {
       heading={'Are you sure you want to open a new protocol?'}
       buttons={[
         {children: 'cancel', onClick: props.cancelUpload},
-        {children: 'continue', onClick: props.confirmUpload}
+        {children: 'continue', onClick: props.confirmUpload},
       ]}
       alertOverlay
     >
@@ -33,6 +33,6 @@ function ConfirmUploadModal (props: Props) {
 function mapDTP (dispatch) {
   return {
     cancelUpload: () => dispatch(goBack()),
-    confirmUpload: () => dispatch(robotActions.clearSession())
+    confirmUpload: () => dispatch(robotActions.clearSession()),
   }
 }

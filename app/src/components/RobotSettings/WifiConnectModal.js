@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import type {
   WifiConfigureResponse,
-  ApiRequestError
+  ApiRequestError,
 } from '../../http-api-client'
 
 import {AlertModal} from '@opentrons/components'
@@ -13,7 +13,7 @@ import {ErrorModal} from '../modals'
 type Props = {
   close: () => mixed,
   error: ?ApiRequestError,
-  response: ?WifiConfigureResponse
+  response: ?WifiConfigureResponse,
 }
 
 const SUCCESS_TITLE = 'Successfully connected to '
@@ -28,7 +28,7 @@ export default function WifiConnectModal (props: Props) {
   if (error || !response) {
     const modalError = error || {
       name: 'NoResponseError',
-      message: 'No response received'
+      message: 'No response received',
     }
 
     return (
@@ -46,7 +46,7 @@ export default function WifiConnectModal (props: Props) {
       heading={`${SUCCESS_TITLE} ${response.ssid}`}
       onCloseClick={close}
       buttons={[
-        {onClick: close, children: 'close'}
+        {onClick: close, children: 'close'},
       ]}
     >
       {SUCCESS_MESSAGE}

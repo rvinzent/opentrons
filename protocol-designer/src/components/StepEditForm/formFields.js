@@ -8,7 +8,7 @@ import {
   DropdownField,
   RadioGroup,
   type DropdownOption,
-  type HoverTooltipHandlers
+  type HoverTooltipHandlers,
 } from '@opentrons/components'
 import {selectors as pipetteSelectors} from '../../pipettes'
 import {selectors as labwareIngredSelectors} from '../../labware-ingred/reducers'
@@ -116,12 +116,12 @@ type PipetteFieldDP = {updateDisposalVolume: (?mixed) => void}
 type PipetteFieldProps = PipetteFieldOP & PipetteFieldSP & PipetteFieldDP
 const PipetteFieldSTP = (state: BaseState, ownProps: PipetteFieldOP): PipetteFieldSP => ({
   pipetteOptions: pipetteSelectors.equippedPipetteOptions(state),
-  getHydratedPipette: (value) => hydrateField(state, ownProps.name, value)
+  getHydratedPipette: (value) => hydrateField(state, ownProps.name, value),
 })
 const PipetteFieldDTP = (dispatch: ThunkDispatch<*>): PipetteFieldDP => ({
   updateDisposalVolume: (disposalVolume: ?mixed) => {
     dispatch(actions.changeFormInput({update: {aspirate_disposalVol_volume: disposalVolume}}))
-  }
+  },
 })
 export const PipetteField = connect(PipetteFieldSTP, PipetteFieldDTP)((props: PipetteFieldProps) => (
   <StepField
@@ -151,7 +151,7 @@ export const PipetteField = connect(PipetteFieldSTP, PipetteFieldDTP)((props: Pi
 type LabwareDropdownOP = {name: StepFieldName, className?: string} & FocusHandlers
 type LabwareDropdownSP = {labwareOptions: Options}
 const LabwareDropdownSTP = (state: BaseState): LabwareDropdownSP => ({
-  labwareOptions: labwareIngredSelectors.labwareOptions(state)
+  labwareOptions: labwareIngredSelectors.labwareOptions(state),
 })
 export const LabwareDropdown = connect(LabwareDropdownSTP)((props: LabwareDropdownOP & LabwareDropdownSP) => {
   const {labwareOptions, name, className, focusedField, dirtyFields, onFieldBlur, onFieldFocus} = props
@@ -184,7 +184,7 @@ export const TipPositionField = () => <FormGroup label='TIP POSITION'>Bottom, ce
 const getChangeTipOptions = () => [
   {name: 'For each aspirate', value: 'always'},
   {name: 'Only the first aspirate', value: 'once'},
-  {name: 'Never', value: 'never'}
+  {name: 'Never', value: 'never'},
 ]
 
 // NOTE: ChangeTipField not validated as of 6/27/18 so no focusHandlers needed

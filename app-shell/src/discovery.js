@@ -7,7 +7,7 @@ import uniqBy from 'lodash/uniqBy'
 
 import DiscoveryClient, {
   DEFAULT_PORT,
-  SERVICE_EVENT
+  SERVICE_EVENT,
 } from '@opentrons/discovery-client'
 
 import {getConfig} from './config'
@@ -37,13 +37,13 @@ export function registerDiscovery (dispatch: Action => void) {
     nameFilter: NAME_FILTER,
     pollInterval: FAST_POLL_INTERVAL,
     logger: log,
-    candidates: config.candidates
+    candidates: config.candidates,
   })
 
   client
     .on(SERVICE_EVENT, () => dispatch({
       type: 'discovery:UPDATE_LIST',
-      payload: {robots: servicesToRobots(client.services)}
+      payload: {robots: servicesToRobots(client.services)},
     }))
     .on('error', error => log.error('discovery error', {error}))
 
@@ -63,7 +63,7 @@ function servicesToRobots (services: Array<Service>): Array<DiscoveredRobot> {
 
   return map(servicesByName, (services: Array<Service>, name) => ({
     name,
-    connections: servicesToConnections(services)
+    connections: servicesToConnections(services),
   }))
 }
 
@@ -80,7 +80,7 @@ function serviceToConnection (service: Service): ?Connection {
     ip: service.ip,
     ok: service.ok,
     port: service.port || DEFAULT_PORT,
-    local: isLocal(service.ip)
+    local: isLocal(service.ip),
   }
 }
 

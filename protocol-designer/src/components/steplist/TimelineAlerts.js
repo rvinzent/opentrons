@@ -6,7 +6,7 @@ import type {Dispatch} from 'redux'
 import {connect} from 'react-redux'
 import {
   actions as dismissActions,
-  selectors as dismissSelectors
+  selectors as dismissSelectors,
 } from '../../dismiss'
 import {selectors as steplistSelectors} from '../../steplist'
 import {selectors as fileDataSelectors} from '../../file-data'
@@ -16,22 +16,22 @@ import type {
   CommandCreatorError,
   CommandCreatorWarning,
   ErrorType,
-  WarningType
+  WarningType,
 } from '../../step-generation'
 
 type AlertContent = {
   title: string,
-  body?: React.Node
+  body?: React.Node,
 }
 
 type SP = {
   errors: Array<CommandCreatorError>,
   warnings: Array<CommandCreatorWarning>,
-  _stepId: ?number
+  _stepId: ?number,
 }
 
 type DP = {
-  onDismiss: (CommandCreatorWarning) => () => mixed
+  onDismiss: (CommandCreatorWarning) => () => mixed,
 }
 
 type Props = SP & DP
@@ -47,23 +47,23 @@ type Props = SP & DP
 const errorOverrides: {[ErrorType]: AlertContent} = {
   'INSUFFICIENT_TIPS': {
     title: 'Not enough tips to complete action',
-    body: 'Add another tip rack to an empty slot in Deck Setup'
+    body: 'Add another tip rack to an empty slot in Deck Setup',
   },
   'NO_TIP_ON_PIPETTE': {
     title: 'No tip on pipette',
-    body: 'The first time a pipette is used in a protocol the "change tip" setting must be set to always or once.'
-  }
+    body: 'The first time a pipette is used in a protocol the "change tip" setting must be set to always or once.',
+  },
 }
 
 const warningOverrides: {[WarningType]: AlertContent} = {
   'ASPIRATE_MORE_THAN_WELL_CONTENTS': {
     title: 'Not enough liquid in well(s)',
-    body: 'You are trying to aspirate more than the current volume of one of your well(s). If you intended to add air to your tip, please use the Air Gap advanced setting.'
+    body: 'You are trying to aspirate more than the current volume of one of your well(s). If you intended to add air to your tip, please use the Air Gap advanced setting.',
   },
   'ASPIRATE_FROM_PRISTINE_WELL': {
     title: 'Source well is empty',
-    body: "The well(s) you're trying to aspirate from are empty. You can add a starting liquid to this labware in Labware & Liquids"
-  }
+    body: "The well(s) you're trying to aspirate from are empty. You can add a starting liquid to this labware in Labware & Liquids",
+  },
 }
 
 function getErrorContent (error: CommandCreatorError): AlertContent {
@@ -120,7 +120,7 @@ function mapStateToProps (state: BaseState): SP {
   return {
     errors,
     warnings,
-    _stepId
+    _stepId,
   }
 }
 
@@ -130,12 +130,12 @@ function mergeProps (stateProps: SP, dispatchProps: {dispatch: Dispatch<*>}): Pr
   const onDismiss = (warning: CommandCreatorWarning) =>
     () => dispatch(dismissActions.dismissTimelineWarning({
       warning,
-      stepId
+      stepId,
     }))
 
   return {
     ...stateProps,
-    onDismiss
+    onDismiss,
   }
 }
 

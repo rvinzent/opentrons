@@ -24,7 +24,7 @@ const delay = (time) => {
 
 const notScanningState = {
   config: {discovery: {enabled: false}},
-  discovery: {scanning: false}
+  discovery: {scanning: false},
 }
 
 describe('api client - discovery', () => {
@@ -78,7 +78,7 @@ describe('api client - discovery', () => {
     const services = [
       {name: 'opentrons-1', port: '31950', addresses: ['192.168.1.1']},
       {name: 'opentrons-2', port: '31950', addresses: ['192.168.1.2']},
-      {name: 'opentrons-3', port: '31950', addresses: ['192.168.1.3']}
+      {name: 'opentrons-3', port: '31950', addresses: ['192.168.1.3']},
     ]
 
     return sendToClient(notScanningState, actions.discover())
@@ -93,7 +93,7 @@ describe('api client - discovery', () => {
     const services = [
       {name: 'opentrons-1', port: '31950', addresses: ['192.168.1.1']},
       {name: 'opentrons-2', port: '31950', addresses: ['192.168.1.2']},
-      {name: 'opentrons-3', port: '31950', addresses: ['192.168.1.3']}
+      {name: 'opentrons-3', port: '31950', addresses: ['192.168.1.3']},
     ]
 
     return sendToClient(notScanningState, actions.discover())
@@ -109,7 +109,7 @@ describe('api client - discovery', () => {
     const services = [
       {name: 'opentrons-1', host: 'ot-1.local', port: '31950', type: 'http'},
       {name: 'opentrons-2', host: 'ot-2.local', port: '31950', type: 'http'},
-      {name: 'opentrons-3', host: 'ot-3.local', port: '31950', type: 'http'}
+      {name: 'opentrons-3', host: 'ot-3.local', port: '31950', type: 'http'},
     ]
 
     return sendToClient(notScanningState, actions.discover())
@@ -127,7 +127,7 @@ describe('api client - discovery', () => {
         name: 'opentrons-1',
         host: 'ot-1.local',
         port: '31950',
-        type: 'http'
+        type: 'http',
       }))
       .then(() => expect(dispatch).not.toHaveBeenCalledWith(
         actions.addDiscovered(expect.anything())
@@ -141,7 +141,7 @@ describe('api client - discovery', () => {
         name: 'opentrons-1',
         host: 'ot-1.local',
         port: '31950',
-        type: 'http'
+        type: 'http',
       }))
       .then(() => expect(dispatch).not.toHaveBeenCalledWith(
         actions.removeDiscovered(expect.anything())
@@ -152,7 +152,7 @@ describe('api client - discovery', () => {
     const services = [
       {name: 'opentrons-1', host: 'ot-1.local', port: '31950', type: 'http'},
       {name: 'nope', host: 'nope.local', port: '31950', type: 'http'},
-      {name: 'opentrons-3', host: 'ot-3.local', port: '31950', type: 'http'}
+      {name: 'opentrons-3', host: 'ot-3.local', port: '31950', type: 'http'},
     ]
 
     return sendToClient(notScanningState, actions.discover())
@@ -171,7 +171,7 @@ describe('api client - discovery', () => {
       name: 'Opentrons USB',
       ip: '[fd00:0:cafe:fefe::1]',
       port: 31950,
-      wired: true
+      wired: true,
     }
 
     return sendToClient(notScanningState, actions.discover())
@@ -187,7 +187,7 @@ describe('api client - discovery', () => {
   test('does not start new discovery if already in progress', () => {
     const state = {
       config: {discovery: {enabled: false}},
-      discovery: {scanning: true}
+      discovery: {scanning: true},
     }
 
     return sendToClient(state, actions.discover())

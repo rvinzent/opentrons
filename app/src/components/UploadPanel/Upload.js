@@ -16,7 +16,7 @@ export default class Upload extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
-      uploadedFile: null
+      uploadedFile: null,
     }
   }
 

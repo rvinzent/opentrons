@@ -15,7 +15,7 @@ import {
   matchUnassigned,
   matchConflict,
   matchCandidate,
-  rejectCandidate
+  rejectCandidate,
 } from './service'
 
 import type {Browser, BrowserService} from 'mdns-js'
@@ -24,7 +24,7 @@ import type {
   Service,
   HealthResponse,
   LogLevel,
-  Logger
+  Logger,
 } from './types'
 
 export * from './types'
@@ -35,7 +35,7 @@ type Options = {
   candidates?: Array<string | Candidate>,
   nameFilter?: string | RegExp,
   allowedPorts?: Array<number>,
-  logger?: Logger
+  logger?: Logger,
 }
 
 const log = (logger: ?Logger, level: LogLevel, msg: string, meta?: {}) =>

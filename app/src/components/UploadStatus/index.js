@@ -16,6 +16,6 @@ function mapStateToProps (state: State): React.ElementProps<typeof Status> {
     uploadInProgress: robotSelectors.getSessionLoadInProgress(state),
     uploadError: robotSelectors.getUploadError(state),
     protocolRunning: robotSelectors.getIsRunning(state),
-    protocolDone: robotSelectors.getIsDone(state)
+    protocolDone: robotSelectors.getIsDone(state),
   }
 }

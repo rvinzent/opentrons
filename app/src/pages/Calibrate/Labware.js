@@ -20,7 +20,7 @@ import ConfirmModal from '../../components/CalibrateLabware/ConfirmModal'
 import ConnectModulesModal from '../../components/ConnectModulesModal'
 
 type OP = {
-  match: Match
+  match: Match,
 }
 
 // TODO(mc, 2018-07-19): rename mergeProps-only properties with _privateName
@@ -48,7 +48,7 @@ function SetupDeckPage (props: Props) {
     deckPopulated,
     reviewModules,
     onBackClick,
-    match: {url, params: {slot}}
+    match: {url, params: {slot}},
   } = props
 
   return (
@@ -106,7 +106,7 @@ function makeMapStateToProps (): (state: State, ownProps: OP) => SP {
       reviewModules,
       robot,
       deckPopulated: !!robotSelectors.getDeckPopulated(state),
-      labware: currentLabware
+      labware: currentLabware,
     }
   }
 }
@@ -115,6 +115,6 @@ function mapDispatchToProps (dispatch: Dispatch, ownProps: OP): DP {
   const {match: {url}} = ownProps
 
   return {
-    onBackClick: () => dispatch(push(url))
+    onBackClick: () => dispatch(push(url)),
   }
 }

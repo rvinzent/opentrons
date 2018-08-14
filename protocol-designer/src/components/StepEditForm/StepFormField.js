@@ -8,13 +8,13 @@ import type {BaseState, ThunkDispatch} from '../../types'
 type FieldRenderProps = {
   value: ?mixed,
   updateValue: (?mixed) => void,
-  errorToShow: ?string
+  errorToShow: ?string,
 }
 type OP = {
   name: StepFieldName,
   render: (FieldRenderProps) => React.Node, // TODO: type StepField
   dirtyFields?: Array<StepFieldName>,
-  focusedField?: StepFieldName
+  focusedField?: StepFieldName,
 }
 type SP = {value?: ?mixed}
 type DP = {updateValue: (?mixed) => void}
@@ -27,7 +27,7 @@ const StepField = (props: StepFieldProps) => {
     value,
     updateValue,
     focusedField,
-    dirtyFields
+    dirtyFields,
   } = props
   const showErrors = showFieldErrors({name, focusedField, dirtyFields})
   const errors = getFieldErrors(name, value)
@@ -49,7 +49,7 @@ const DTP = (dispatch: ThunkDispatch<*>, ownProps: OP): DP => ({
   updateValue: (value: mixed) => {
     const processedValue = processField(ownProps.name, value)
     dispatch(actions.changeFormInput({update: {[ownProps.name]: processedValue}}))
-  }
+  },
 })
 
 const ConnectedStepField = connect(STP, DTP)(StepField)

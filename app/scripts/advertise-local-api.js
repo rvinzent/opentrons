@@ -14,7 +14,7 @@ const SERVICE = {
   name: NAME,
   host: NAME,
   port: LOCAL_API_PORT,
-  type: 'http'
+  type: 'http',
 }
 
 startPolling()

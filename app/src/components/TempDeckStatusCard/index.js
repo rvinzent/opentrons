@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import type {State} from '../../types'
 import {
   selectors as robotSelectors,
-  type Robot
+  type Robot,
 } from '../../robot'
 import type {TempDeckModule} from '../../http-api-client'
 import {fetchModules, makeGetRobotModules} from '../../http-api-client'
@@ -15,13 +15,13 @@ import StatusItem from './StatusItem'
 
 type SP = {
   _robot: ?Robot,
-  tempDeck: ?TempDeckModule
+  tempDeck: ?TempDeckModule,
 }
 
 type DP = {dispatch: Dispatch}
 
 type Props = SP & {
-  fetchModules: () => mixed
+  fetchModules: () => mixed,
 }
 
 export default connect(makeSTP, null, mergeProps)(TempDeckStatusCard)
@@ -63,7 +63,7 @@ function makeSTP (): (state: State) => SP {
     const tempDeck = modules && ((modules.find(m => m.name === 'tempdeck'): any): TempDeckModule)
     return {
       _robot,
-      tempDeck
+      tempDeck,
     }
   }
 }
@@ -74,6 +74,6 @@ function mergeProps (stateProps: SP, dispatchProps: DP): Props {
 
   return {
     ...stateProps,
-    fetchModules: () => _robot && dispatch(fetchModules(_robot))
+    fetchModules: () => _robot && dispatch(fetchModules(_robot)),
   }
 }

@@ -2,7 +2,7 @@
 import {
   canPipetteUseLabware,
   computeWellAccess,
-  getWellTotalVolume
+  getWellTotalVolume,
 } from './helpers'
 import getLabware from './getLabware'
 
@@ -21,5 +21,5 @@ export {
   computeWellAccess,
   getWellTotalVolume,
   getLabware,
-  labwareList
+  labwareList,
 }

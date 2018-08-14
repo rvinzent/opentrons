@@ -53,7 +53,7 @@ export type ModulesAction =
   | ApiAction<'modules', null, FetchModulesResponse>
 
 export type ModulesState = {
-  modules?: FetchModulesCall
+  modules?: FetchModulesCall,
 }
 
 const MODULES: 'modules' = 'modules'

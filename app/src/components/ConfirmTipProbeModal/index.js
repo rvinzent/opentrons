@@ -11,12 +11,12 @@ import Contents from './Contents'
 
 type OwnProps = {
   mount: Mount,
-  backUrl: string
+  backUrl: string,
 }
 
 type Props = {
   onContinueClick: () => void,
-  onCancelClick: () => void
+  onCancelClick: () => void,
 }
 
 export default connect(null, mapDispatchToProps)(ContinueTipProbeModal)
@@ -41,6 +41,6 @@ function mapDispatchToProps (dispatch: Dispatch<*>, ownProps: OwnProps) {
       dispatch(robotActions.moveToFront(mount))
       dispatch(push(backUrl))
     },
-    onCancelClick: () => dispatch(push(backUrl))
+    onCancelClick: () => dispatch(push(backUrl)),
   }
 }

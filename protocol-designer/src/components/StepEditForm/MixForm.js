@@ -12,7 +12,7 @@ import {
   LabwareDropdown,
   ChangeTipField,
   FlowRateField,
-  TipPositionField
+  TipPositionField,
 } from './formFields'
 
 import WellSelectionInput from './WellSelectionInput'

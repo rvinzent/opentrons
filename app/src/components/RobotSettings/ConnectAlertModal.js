@@ -5,7 +5,7 @@ import * as React from 'react'
 import {AlertModal} from '@opentrons/components'
 
 type Props = {
-  onCloseClick: () => *
+  onCloseClick: () => *,
 }
 
 const HEADING = 'Could not connect to robot'
@@ -22,7 +22,7 @@ export default function ConnectAlertModal (props: Props) {
       heading={HEADING}
       onCloseClick={onCloseClick}
       buttons={[
-        {onClick: onCloseClick, children: 'close'}
+        {onClick: onCloseClick, children: 'close'},
       ]}
     >
       <p>

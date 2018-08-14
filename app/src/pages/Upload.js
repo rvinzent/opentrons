@@ -6,7 +6,7 @@ import UploadAlert from '../components/UploadAlert'
 import Page from '../components/Page'
 
 type Props = {
-  match: Match
+  match: Match,
 }
 
 export default function UploadPage (props: Props) {

@@ -44,7 +44,7 @@ function initializeIntercom (config: SupportConfig) {
       created_at: config.createdAt,
       name: config.name,
       email: config.email,
-      'App Version': version
+      'App Version': version,
     }
 
     log.debug('Initializing Intercom', {data})

@@ -6,7 +6,7 @@ import type {DiscoveredRobot} from './types'
 
 type DiscoveryState = {
   scanning: boolean,
-  robotsByName: {[name: string]: DiscoveredRobot}
+  robotsByName: {[name: string]: DiscoveredRobot},
 }
 
 type StartAction = {|
@@ -89,8 +89,8 @@ export function discoveryReducer (
         ...state,
         robotsByName: {
           ...state.robotsByName,
-          [action.payload.name]: robotServiceToDiscoveredRobot(action.payload, true)
-        }
+          [action.payload.name]: robotServiceToDiscoveredRobot(action.payload, true),
+        },
       }
 
     // TODO(mc, 2018-08-10): remove robot:REMOVE_DISCOVERED
@@ -99,8 +99,8 @@ export function discoveryReducer (
         ...state,
         robotsByName: {
           ...state.robotsByName,
-          [action.payload.name]: robotServiceToDiscoveredRobot(action.payload, false)
-        }
+          [action.payload.name]: robotServiceToDiscoveredRobot(action.payload, false),
+        },
       }
 
     case 'discovery:UPDATE_LIST':
@@ -108,8 +108,8 @@ export function discoveryReducer (
         ...state,
         robotsByName: action.payload.robots.reduce((robotsMap, robot) => ({
           ...robotsMap,
-          [robot.name]: robot
-        }), {})
+          [robot.name]: robot,
+        }), {}),
       }
   }
 
@@ -124,7 +124,7 @@ function robotServiceToDiscoveredRobot (
   return {
     name: robot.name,
     connections: [
-      {ip: robot.ip, port: robot.port, local: !!robot.wired, ok}
-    ]
+      {ip: robot.ip, port: robot.port, local: !!robot.wired, ok},
+    ],
   }
 }

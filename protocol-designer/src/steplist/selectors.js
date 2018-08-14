@@ -17,20 +17,20 @@ import type {
   StepItemData,
   FormSectionState,
   SubstepIdentifier,
-  TerminalItemId
+  TerminalItemId,
 } from './types'
 
 import type {
   FormData,
   BlankForm,
-  StepIdType
+  StepIdType,
 } from '../form-types'
 
 import {
   type ValidFormAndErrors,
   generateNewForm,
   validateAndProcessForm,
-  formHasErrors
+  formHasErrors,
 } from './formProcessing'
 
 // TODO Ian 2018-01-19 Rethink the hard-coded 'steplist' key in Redux root
@@ -144,12 +144,12 @@ const validatedForms: Selector<{[StepIdType]: ValidFormAndErrors}> = createSelec
         // NOTE: usually, stepFormData is undefined here b/c there's no saved step form for it:
         : {
           errors: {'form': ['no saved form for step ' + stepId]},
-          validatedForm: null
+          validatedForm: null,
         } // TODO Ian 2018-03-20 revisit "no saved form for step"
 
       return {
         ...acc,
-        [stepId]: nextStepData
+        [stepId]: nextStepData,
       }
     }, {})
   }
@@ -294,7 +294,7 @@ export const allSteps: Selector<{[stepId: StepIdType]: StepItemData}> = createSe
           ...steps[id],
           formData: savedForm,
           title,
-          description: savedForm ? savedForm['step-details'] : null
+          description: savedForm ? savedForm['step-details'] : null,
         }
       }
     )
@@ -359,5 +359,5 @@ export default {
   getSteps,
   orderedStepsSelector,
   getCollapsedSteps,
-  getSavedForms
+  getSavedForms,
 }

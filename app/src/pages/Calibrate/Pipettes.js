@@ -35,7 +35,7 @@ function CalibratePipettesPage (props: Props) {
     pipettes,
     currentPipette,
     fetchPipettes,
-    match: {url, params}
+    match: {url, params},
   } = props
   const confirmTipProbeUrl = `${url}/confirm-tip-probe`
 
@@ -86,7 +86,7 @@ function makeMapStateToProps (): (State, OP) => SP {
       _robot,
       pipettes: robotSelectors.getPipettes(state),
       currentPipette: getCurrentPipette(state, props),
-      actualPipettes: pipettesResponse.response
+      actualPipettes: pipettesResponse.response,
     }
   }
 }
@@ -98,6 +98,6 @@ function mergeProps (stateProps: SP, dispatchProps: DP, ownProps: OP): Props {
   return {
     ...stateProps,
     ...ownProps,
-    fetchPipettes: () => _robot && dispatch(fetchPipettes(_robot))
+    fetchPipettes: () => _robot && dispatch(fetchPipettes(_robot)),
   }
 }

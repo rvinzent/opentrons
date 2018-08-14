@@ -21,7 +21,7 @@ export type PlateProps = {
   showLabels?: boolean,
   selectable?: boolean,
   handleMouseOverWell?: (well: string) => (e: SyntheticMouseEvent<*>) => mixed,
-  handleMouseExitWell?: (e: SyntheticMouseEvent<*>) => mixed
+  handleMouseExitWell?: (e: SyntheticMouseEvent<*>) => mixed,
 }
 
 type PlateOutlineProps = {className?: ?string}
@@ -48,7 +48,7 @@ function FallbackPlate () {
 type LabwareData = {
   allWells: $PropertyType<LabwareDefinition, 'wells'>,
   allWellNames: Array<string>,
-  isTiprack: boolean
+  isTiprack: boolean,
 }
 
 export default class Plate extends React.Component<PlateProps> {
@@ -82,7 +82,7 @@ export default class Plate extends React.Component<PlateProps> {
     // TODO: Ian 2018-06-27 remove scale & transform so this offset isn't needed
     const svgOffset = {
       x: 1,
-      y: -3
+      y: -3,
     }
 
     const wellLocation = allWells[wellName]
@@ -97,12 +97,12 @@ export default class Plate extends React.Component<PlateProps> {
 
         wellLocation: {
           ...wellLocation,
-          y: SLOT_HEIGHT - wellLocation.y // labware Y vs SVG Y is flipped
+          y: SLOT_HEIGHT - wellLocation.y, // labware Y vs SVG Y is flipped
         },
         svgOffset,
 
         onMouseOver: this.handleMouseOverWell(wellName),
-        onMouseLeave: handleMouseExitWell
+        onMouseLeave: handleMouseExitWell,
       }
     } />
   }

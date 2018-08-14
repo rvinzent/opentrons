@@ -14,7 +14,7 @@ type Props = {
   /** if is included, FormGroup title will use error style. The content of the string is ignored. */
   error?: ?string,
   /** enable disabled style. Overridden by truthy `error` */
-  disabled?: ?boolean
+  disabled?: ?boolean,
 }
 
 export default function FormGroup (props: Props) {
@@ -23,7 +23,7 @@ export default function FormGroup (props: Props) {
     props.className,
     {
       [styles.error]: error,
-      [styles.disabled]: !error && props.disabled
+      [styles.disabled]: !error && props.disabled,
     }
   )
 

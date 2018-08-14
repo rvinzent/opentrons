@@ -22,7 +22,7 @@ export const reducer = combineReducers({
   settings: settingsReducer,
   wifi: wifiReducer,
   // TODO(mc, 2018-07-09): api subreducer will become the sole reducer
-  api: apiReducer
+  api: apiReducer,
 })
 
 export * from './types'
@@ -31,7 +31,7 @@ export type {
   ApiRequestAction,
   ApiSuccessAction,
   ApiFailureAction,
-  ClearApiResponseAction
+  ClearApiResponseAction,
 } from './actions'
 
 export type {
@@ -40,33 +40,33 @@ export type {
   JogAxis,
   JogDirection,
   JogStep,
-  DeckCalPoint
+  DeckCalPoint,
 } from './calibration'
 
 export type {
-  RobotHealth
+  RobotHealth,
 } from './health'
 
 export type {
   Pipette,
   PipettesResponse,
-  RobotPipettes
+  RobotPipettes,
 } from './pipettes'
 
 export type {
   RobotMove,
   RobotHome,
-  RobotLights
+  RobotLights,
 } from './robot'
 
 export type {
   RobotServerUpdate,
   RobotServerRestart,
-  RobotServerUpdateIgnore
+  RobotServerUpdateIgnore,
 } from './server'
 
 export type {
-  Setting
+  Setting,
 } from './settings'
 
 export type {
@@ -75,7 +75,7 @@ export type {
   WifiConfigureResponse,
   RobotWifiList,
   RobotWifiStatus,
-  RobotWifiConfigure
+  RobotWifiConfigure,
 } from './wifi'
 
 export type State = $Call<typeof reducer>
@@ -95,23 +95,23 @@ export {
   startDeckCalibration,
   deckCalibrationCommand,
   makeGetDeckCalibrationStartState,
-  makeGetDeckCalibrationCommandState
+  makeGetDeckCalibrationCommandState,
 } from './calibration'
 
 export {
   fetchHealth,
-  makeGetRobotHealth
+  makeGetRobotHealth,
 } from './health'
 
 export * from './modules'
 
 export {
-  disengagePipetteMotors
+  disengagePipetteMotors,
 } from './motors'
 
 export {
   fetchPipettes,
-  makeGetRobotPipettes
+  makeGetRobotPipettes,
 } from './pipettes'
 
 export {
@@ -123,7 +123,7 @@ export {
   setRobotLights,
   makeGetRobotMove,
   makeGetRobotHome,
-  makeGetRobotLights
+  makeGetRobotLights,
 } from './robot'
 
 export {
@@ -136,13 +136,13 @@ export {
   fetchHealthAndIgnored,
   fetchIgnoredUpdate,
   setIgnoredUpdate,
-  makeGetRobotIgnoredUpdateRequest
+  makeGetRobotIgnoredUpdateRequest,
 } from './server'
 
 export {
   fetchSettings,
   setSettings,
-  makeGetRobotSettings
+  makeGetRobotSettings,
 } from './settings'
 
 export {
@@ -152,5 +152,5 @@ export {
   configureWifi,
   makeGetRobotWifiStatus,
   makeGetRobotWifiList,
-  makeGetRobotWifiConfigure
+  makeGetRobotWifiConfigure,
 } from './wifi'

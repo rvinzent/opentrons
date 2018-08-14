@@ -51,8 +51,8 @@ describe('api client', () => {
       close: jest.fn(),
       remote: {
         session_manager: sessionManager,
-        calibration_manager: calibrationManager
-      }
+        calibration_manager: calibrationManager,
+      },
     }
 
     dispatch = jest.fn()
@@ -75,17 +75,17 @@ describe('api client', () => {
   const STATE = {
     [NAME]: {
       connection: {
-        connectedTo: ''
-      }
+        connectedTo: '',
+      },
     },
     discovery: {
       robotsByName: {
         [ROBOT_NAME]: {
           name: ROBOT_NAME,
-          connections: [{ip: ROBOT_IP, port: 31950, ok: true}]
-        }
-      }
-    }
+          connections: [{ip: ROBOT_IP, port: 31950, ok: true}],
+        },
+      },
+    },
   }
 
   const sendConnect = () => sendToClient(STATE, actions.connect(ROBOT_NAME))
@@ -286,7 +286,7 @@ describe('api client', () => {
         protocolCommandsById: {},
         pipettesByMount: {},
         labwareBySlot: {},
-        modulesBySlot: {}
+        modulesBySlot: {},
       })
     })
 
@@ -321,8 +321,8 @@ describe('api client', () => {
           1: {id: 1, description: 'b', handledAt: 1, children: [2, 3]},
           2: {id: 2, description: 'c', handledAt: 2, children: []},
           3: {id: 3, description: 'd', handledAt: null, children: []},
-          4: {id: 4, description: 'e', handledAt: null, children: []}
-        }
+          4: {id: 4, description: 'e', handledAt: null, children: []},
+        },
       }))
 
       session.commands = [
@@ -335,17 +335,17 @@ describe('api client', () => {
               description: 'b',
               children: [
                 {id: 2, description: 'c', children: []},
-                {id: 3, description: 'd', children: []}
-              ]
-            }
-          ]
+                {id: 3, description: 'd', children: []},
+              ],
+            },
+          ],
         },
-        {id: 4, description: 'e', children: []}
+        {id: 4, description: 'e', children: []},
       ]
       session.command_log = {
         0: 0,
         1: 1,
-        2: 2
+        2: 2,
       }
 
       return sendConnect()
@@ -356,13 +356,13 @@ describe('api client', () => {
       const expected = actions.sessionResponse(null, expect.objectContaining({
         pipettesByMount: {
           left: {_id: 2, mount: 'left', name: 'p200', channels: 1, volume: 200},
-          right: {_id: 1, mount: 'right', name: 'p50', channels: 8, volume: 50}
-        }
+          right: {_id: 1, mount: 'right', name: 'p50', channels: 8, volume: 50},
+        },
       }))
 
       session.instruments = [
         {_id: 1, mount: 'right', name: 'p50', channels: 8},
-        {_id: 2, mount: 'left', name: 'p200', channels: 1}
+        {_id: 2, mount: 'left', name: 'p200', channels: 1},
       ]
 
       return sendConnect()
@@ -378,11 +378,11 @@ describe('api client', () => {
             name: 'a',
             type: 'tiprack',
             isTiprack: true,
-            calibratorMount: 'right'
+            calibratorMount: 'right',
           },
           5: {_id: 2, slot: '5', name: 'b', type: 'B', isTiprack: false},
-          9: {_id: 3, slot: '9', name: 'c', type: 'C', isTiprack: false}
-        }
+          9: {_id: 3, slot: '9', name: 'c', type: 'C', isTiprack: false},
+        },
       }))
 
       session.containers = [
@@ -391,10 +391,10 @@ describe('api client', () => {
           slot: '1',
           name: 'a',
           type: 'tiprack',
-          instruments: [{mount: 'right'}]
+          instruments: [{mount: 'right'}],
         },
         {_id: 2, slot: '5', name: 'b', type: 'B'},
-        {_id: 3, slot: '9', name: 'c', type: 'C'}
+        {_id: 3, slot: '9', name: 'c', type: 'C'},
       ]
 
       return sendConnect()
@@ -407,27 +407,27 @@ describe('api client', () => {
           1: {
             _id: 1,
             slot: '1',
-            name: 'tempdeck'
+            name: 'tempdeck',
           },
           9: {
             _id: 9,
             slot: '9',
-            name: 'magdeck'
-          }
-        }
+            name: 'magdeck',
+          },
+        },
       }))
 
       session.modules = [
         {
           _id: 1,
           slot: '1',
-          name: 'tempdeck'
+          name: 'tempdeck',
         },
         {
           _id: 9,
           slot: '9',
-          name: 'magdeck'
-        }
+          name: 'magdeck',
+        },
       ]
 
       return sendConnect()
@@ -462,12 +462,12 @@ describe('api client', () => {
           calibration: {
             calibrationRequest: {},
             confirmedBySlot: {},
-            labwareBySlot: {}
+            labwareBySlot: {},
           },
           session: {
             pipettesByMount: {
               left: {_id: 'inst-2'},
-              right: {_id: 'inst-1'}
+              right: {_id: 'inst-1'},
             },
             labwareBySlot: {
               1: {_id: 'lab-1', type: '96-flat'},
@@ -475,17 +475,17 @@ describe('api client', () => {
                 _id: 'lab-2',
                 type: 'tiprack-200ul',
                 isTiprack: true,
-                calibratorMount: 'left'
+                calibratorMount: 'left',
               },
               9: {
                 _id: 'lab-3',
                 type: 'tiprack-200ul',
                 isTiprack: true,
-                calibratorMount: 'right'
-              }
-            }
-          }
-        }
+                calibratorMount: 'right',
+              },
+            },
+          },
+        },
       }
     })
 

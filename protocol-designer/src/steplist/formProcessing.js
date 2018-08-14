@@ -5,7 +5,7 @@ import type {
   StepType,
   StepIdType,
   FormData,
-  BlankForm
+  BlankForm,
 } from '../form-types'
 
 import type {
@@ -14,23 +14,23 @@ import type {
   MixFormData,
   PauseFormData,
   TransferFormData,
-  CommandCreatorData
+  CommandCreatorData,
 } from '../step-generation'
 
 import {
   DEFAULT_CHANGE_TIP_OPTION,
-  FIXED_TRASH_ID
+  FIXED_TRASH_ID,
 } from '../constants'
 
 // TODO LATER Ian 2018-03-01 remove or consolidate these 2 similar types?
 export type ValidFormAndErrors = {
   errors: {[string]: string},
-  validatedForm: CommandCreatorData | null // TODO: incompleteData field when this is null?
+  validatedForm: CommandCreatorData | null, // TODO: incompleteData field when this is null?
 }
 
 type ValidationAndErrors<F> = {
   errors: {[string]: string},
-  validatedForm: F | null
+  validatedForm: F | null,
 }
 
 function getMixData (formData, checkboxField, volumeField, timesField) {
@@ -50,13 +50,13 @@ export const generateNewForm = (stepId: StepIdType, stepType: StepType): BlankFo
     id: stepId,
     stepType: stepType,
     'step-name': startCase(stepType),
-    'step-details': ''
+    'step-details': '',
   }
 
   if (stepType === 'transfer' || stepType === 'consolidate' || stepType === 'mix') {
     return {
       ...baseForm,
-      'aspirate_changeTip': DEFAULT_CHANGE_TIP_OPTION
+      'aspirate_changeTip': DEFAULT_CHANGE_TIP_OPTION,
     }
   }
 
@@ -66,7 +66,7 @@ export const generateNewForm = (stepId: StepIdType, stepType: StepType): BlankFo
       'aspirate_changeTip': DEFAULT_CHANGE_TIP_OPTION,
       'aspirate_disposalVol_checkbox': true,
       'dispense_blowout_checkbox': true,
-      'dispense_blowout_labware': FIXED_TRASH_ID
+      'dispense_blowout_labware': FIXED_TRASH_ID,
     }
   }
 
@@ -97,7 +97,7 @@ function _vapTransferLike (
   const requiredFieldErrors = [
     'pipette',
     'aspirate_labware',
-    'dispense_labware'
+    'dispense_labware',
   ].reduce((acc, fieldName) => (!formData[fieldName])
     ? {...acc, [fieldName]: 'This field is required'}
     : acc,
@@ -121,7 +121,7 @@ function _vapTransferLike (
   const mixFirstAspirate = formData['aspirate_mix_checkbox']
     ? {
       volume: Number(formData['aspirate_mix_volume']),
-      times: parseInt(formData['aspirate_mix_times']) // TODO handle unparseable
+      times: parseInt(formData['aspirate_mix_times']), // TODO handle unparseable
     }
     : null
 
@@ -160,7 +160,7 @@ function _vapTransferLike (
     preWetTip: formData['aspirate_preWetTip'] || false,
     touchTipAfterAspirate: formData['aspirate_touchTip'] || false,
     touchTipAfterDispense: formData['dispense_touchTip'] || false,
-    description: 'description would be here 2018-03-01' // TODO get from form
+    description: 'description would be here 2018-03-01', // TODO get from form
   }
 
   if (!formHasErrors({errors})) {
@@ -179,7 +179,7 @@ function _vapTransferLike (
         sourceWells,
         destWells,
         mixBeforeAspirate,
-        name: `Transfer ${formData.id}` // TODO Ian 2018-04-03 real name for steps
+        name: `Transfer ${formData.id}`, // TODO Ian 2018-04-03 real name for steps
       }
 
       return {errors, validatedForm}
@@ -197,7 +197,7 @@ function _vapTransferLike (
         sourceWells,
         destWell: destWells[0],
         stepType: 'consolidate',
-        name: `Consolidate ${formData.id}` // TODO Ian 2018-04-03 real name for steps
+        name: `Consolidate ${formData.id}`, // TODO Ian 2018-04-03 real name for steps
       }
 
       return {errors, validatedForm}
@@ -215,7 +215,7 @@ function _vapTransferLike (
         sourceWell: sourceWells[0],
         destWells,
         stepType: 'distribute',
-        name: `Distribute ${formData.id}` // TODO Ian 2018-04-03 real name for steps
+        name: `Distribute ${formData.id}`, // TODO Ian 2018-04-03 real name for steps
       }
 
       return {errors, validatedForm}
@@ -224,7 +224,7 @@ function _vapTransferLike (
 
   return {
     errors,
-    validatedForm: null
+    validatedForm: null,
   }
 }
 
@@ -244,7 +244,7 @@ function _vapPause (formData: FormData): ValidationAndErrors<PauseFormData> {
     ...(formData['pauseForAmountOfTime'] === 'true' && (totalSeconds <= 0)
       ? {'_pause-times': 'Must include hours, minutes, or seconds'}
       : {}
-    )
+    ),
   }
 
   return {
@@ -262,9 +262,9 @@ function _vapPause (formData: FormData): ValidationAndErrors<PauseFormData> {
         meta: {
           hours,
           minutes,
-          seconds
-        }
-      }
+          seconds,
+        },
+      },
   }
 }
 
@@ -324,9 +324,9 @@ function _vapMix (formData: FormData): ValidationAndErrors<MixFormData> {
         delay,
         changeTip,
         blowout,
-        pipette
+        pipette,
       }
-      : null
+      : null,
   }
 }
 
@@ -343,7 +343,7 @@ export const validateAndProcessForm = (formData: FormData): * => { // ValidFormA
     default:
       return {
         errors: {_form: `Unsupported step type: ${formData.stepType}`},
-        validatedForm: null
+        validatedForm: null,
       }
   }
 }

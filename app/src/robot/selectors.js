@@ -8,7 +8,7 @@ import {
   type ConnectionStatus,
   _NAME,
   PIPETTE_MOUNTS,
-  DECK_SLOTS
+  DECK_SLOTS,
 } from './constants'
 
 import {getDiscoveredRobotsByName} from '../discovery'
@@ -24,7 +24,7 @@ import type {
   LabwareType,
   Robot,
   SessionStatus,
-  SessionModule
+  SessionModule,
 } from './types'
 
 const calibration = (state: State) => state[_NAME].calibration
@@ -69,7 +69,7 @@ export const getDiscovered: Selector<State, void, Array<Robot>> =
             ip: connection.ip,
             port: connection.port,
             wired: connection.local,
-            isConnected: connectedTo === name
+            isConnected: connectedTo === name,
           }
         })
         .filter(Boolean)
@@ -177,7 +177,7 @@ function traverseCommands (commandsById, parentIsCurrent) {
       handledAt,
       isCurrent,
       isLast,
-      children: children.map(traverseCommands(commandsById, isCurrent))
+      children: children.map(traverseCommands(commandsById, isCurrent)),
     }
   }
 }
@@ -285,7 +285,7 @@ export const getPipettes = createSelector(
           ...pipette,
           calibration,
           probed,
-          tipOn
+          tipOn,
         }
       })
   }

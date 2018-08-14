@@ -15,19 +15,19 @@ const argv = require('yargs-parser')(process.argv.slice(2), {
     services: [],
     candidates: [],
     allowedPorts: [],
-    nameFilter: ''
+    nameFilter: '',
   },
   alias: {
     p: 'pollInterval',
     s: 'services',
     c: 'candidates',
     n: 'nameFilter',
-    a: 'allowedPorts'
+    a: 'allowedPorts',
   },
   coerce: {
     services: objectNotationToArray,
-    candidates: objectNotationToArray
-  }
+    candidates: objectNotationToArray,
+  },
 })
 
 const logger = {
@@ -37,7 +37,7 @@ const logger = {
   http: LOG_LVL >= 3 ? console.debug : noop,
   verbose: LOG_LVL >= 4 ? console.debug : noop,
   debug: LOG_LVL >= 5 ? console.debug : noop,
-  silly: LOG_LVL >= 6 ? console.debug : noop
+  silly: LOG_LVL >= 6 ? console.debug : noop,
 }
 
 const client = DiscoveryClient(Object.assign({}, argv, {logger}))

@@ -62,19 +62,19 @@ type UpdateConfigAction = {|
   type: 'config:UPDATE',
   payload: {|
     path: string,
-    value: any
+    value: any,
   |},
   meta: {|
-    shell: true
-  |}
+    shell: true,
+  |},
 |}
 
 type SetConfigAction = {|
   type: 'config:SET',
   payload: {|
     path: string,
-    value: any
-  |}
+    value: any,
+  |},
 |}
 
 export type ConfigAction = UpdateConfigAction | SetConfigAction

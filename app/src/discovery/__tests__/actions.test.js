@@ -37,7 +37,7 @@ describe('discovery actions', () => {
 
     const expectedStart = {
       type: 'robot:DISCOVER',
-      meta: {robotCommand: true}
+      meta: {robotCommand: true},
     }
 
     store.dispatch(startDiscovery())

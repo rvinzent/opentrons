@@ -12,7 +12,7 @@ export type SingleWell = {|
   selected?: ?boolean,
   error?: ?boolean,
   maxVolume?: number,
-  fillColor?: ?string
+  fillColor?: ?string,
 |}
 
 export type WellLocation = {
@@ -20,7 +20,7 @@ export type WellLocation = {
   y: number,
   length?: number,
   width?: number,
-  diameter?: number
+  diameter?: number,
 }
 
 type Props = {
@@ -30,10 +30,10 @@ type Props = {
   wellLocation: WellLocation,
   svgOffset: {
     x: number,
-    y: number
+    y: number,
   },
   onMouseOver?: (e: SyntheticMouseEvent<*>) => mixed,
-  onMouseLeave?: (e: SyntheticMouseEvent<*>) => mixed
+  onMouseLeave?: (e: SyntheticMouseEvent<*>) => mixed,
 }
 
 export default function Well (props: Props) {
@@ -47,7 +47,7 @@ export default function Well (props: Props) {
     wellLocation,
     svgOffset,
     onMouseOver,
-    onMouseLeave
+    onMouseLeave,
   } = props
 
   const fillColor = props.fillColor || 'transparent'
@@ -59,14 +59,14 @@ export default function Well (props: Props) {
       [styles.selected]: selected,
       [styles.selected_overlay]: selected,
       [styles.highlighted]: highlighted,
-      [styles.error]: error
+      [styles.error]: error,
     }
   )
 
   const selectionProps = {
     'data-wellname': wellName,
     onMouseOver,
-    onMouseLeave
+    onMouseLeave,
   }
 
   const isCircle = typeof wellLocation.diameter === 'number'
@@ -78,7 +78,7 @@ export default function Well (props: Props) {
       x: wellLocation.x + svgOffset.x,
       y: baseY - (wellLocation.length || 0), // zero fallback for flow
       width: wellLocation.width,
-      height: baseY
+      height: baseY,
     }
 
     if (isTip) {
@@ -105,7 +105,7 @@ export default function Well (props: Props) {
     const circleProps = {
       cx: wellLocation.x + svgOffset.x,
       cy: wellLocation.y + svgOffset.y,
-      r: (wellLocation.diameter || 0) / 2
+      r: (wellLocation.diameter || 0) / 2,
     }
 
     // smaller circle inside the main circle for tips in a tiprack
@@ -117,7 +117,7 @@ export default function Well (props: Props) {
 
       const innerCircleProps = {
         ...circleProps,
-        r: radius
+        r: radius,
       }
 
       tipCircle = <circle

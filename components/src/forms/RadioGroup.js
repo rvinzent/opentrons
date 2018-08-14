@@ -13,14 +13,14 @@ type Props = {
   /** Array of {name, value} data */
   options?: Array<{
     name: string,
-    value: string
+    value: string,
   }>,
   /** Show radio buttons inline instead of stacked */
   inline?: boolean,
   /** classes to apply */
   className?: string,
   /** if is included, RadioGroup will use error style. The content of the string is ignored. */
-  error?: ?string
+  error?: ?string,
 }
 
 export default function RadioGroup (props: Props) {

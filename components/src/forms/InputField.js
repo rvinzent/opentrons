@@ -34,13 +34,13 @@ type Props = {
   /** blur handler */
   onBlur?: (event: SyntheticFocusEvent<*>) => mixed,
   /** makes input field read-only */
-  readOnly?: ?boolean
+  readOnly?: ?boolean,
 }
 
 export default function InputField (props: Props) {
   const error = props.error != null
   const labelClass = cx(styles.form_field, props.className, {
-    [styles.error]: error
+    [styles.error]: error,
   })
 
   if (!props.label) {

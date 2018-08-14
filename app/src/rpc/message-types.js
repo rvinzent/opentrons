@@ -11,5 +11,5 @@ export const NACK = 4
 // statuses
 export const statuses = {
   SUCCESS: 'success',
-  FAILURE: 'error'
+  FAILURE: 'error',
 }

@@ -9,7 +9,7 @@ type StepCreationButtonProps = {
   onStepClick?: StepType => (event?: SyntheticEvent<*>) => mixed,
   onExpandClick?: (event?: SyntheticEvent<*>) => mixed,
   onClickAway?: (event?: MouseEvent | SyntheticEvent<*>) => mixed, // TODO is there away around this 2-event union?
-  expanded?: boolean
+  expanded?: boolean,
 }
 
 class StepCreationButton extends React.Component<StepCreationButtonProps> {

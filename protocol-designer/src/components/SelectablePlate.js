@@ -7,7 +7,7 @@ import {
   Plate,
   MIXED_WELL_COLOR,
   type SingleWell,
-  type Channels
+  type Channels,
 } from '@opentrons/components'
 
 import SelectionRect from '../components/SelectionRect.js'
@@ -30,7 +30,7 @@ export type Props = {
 
   // used by container
   containerId: string,
-  pipetteChannels?: ?Channels
+  pipetteChannels?: ?Channels,
 }
 
 function wellContentsGroupIdsToColor (wc: ContentsByWell): PlateWellContents {
@@ -44,7 +44,7 @@ function wellContentsGroupIdsToColor (wc: ContentsByWell): PlateWellContents {
       error: well.error,
       maxVolume: well.maxVolume,
 
-      fillColor: getFillColor(well.groupIds)
+      fillColor: getFillColor(well.groupIds),
     })
   )
 }
@@ -70,7 +70,7 @@ export default function SelectablePlate (props: Props) {
     onSelectionDone,
     selectable,
     handleMouseOverWell,
-    handleMouseExitWell
+    handleMouseExitWell,
   } = props
 
   const plate = <Plate
@@ -78,7 +78,7 @@ export default function SelectablePlate (props: Props) {
       selectable,
       containerType,
       handleMouseOverWell,
-      handleMouseExitWell
+      handleMouseExitWell,
     }}
     showLabels={selectable}
     wellContents={wellContentsGroupIdsToColor(wellContents)}

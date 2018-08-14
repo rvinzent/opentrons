@@ -10,13 +10,13 @@ type VersionString = string // eg '1.0.0'
 
 export type FilePipette = {
   mount: Mount,
-  model: string // TODO Ian 2018-05-11 use pipette-definitions model types
+  model: string, // TODO Ian 2018-05-11 use pipette-definitions model types
 }
 
 export type FileLabware = {
   slot: DeckSlot,
   model: string,
-  'display-name': string
+  'display-name': string,
 }
 
 export type PDMetadata = {
@@ -29,7 +29,7 @@ export type PDMetadata = {
   ingredLocations: $PropertyType<IngredRoot, 'ingredLocations'>,
 
   savedStepForms: $PropertyType<StepformRoot, 'savedStepForms'>,
-  orderedSteps: $PropertyType<StepformRoot, 'orderedSteps'>
+  orderedSteps: $PropertyType<StepformRoot, 'orderedSteps'>,
 }
 
 // A JSON protocol
@@ -45,34 +45,34 @@ export type ProtocolFile = {
     // TODO LATER string enums for category/subcategory? Or just strings?
     category: string | null,
     subcategory: string | null,
-    tags: Array<string>
+    tags: Array<string>,
   },
 
   'designer-application': {
     'application-name': 'opentrons/protocol-designer',
     'application-version': VersionString,
-    data: PDMetadata
+    data: PDMetadata,
   },
 
   robot: {
-    model: 'OT-2 Standard' // TODO LATER support additional models
+    model: 'OT-2 Standard', // TODO LATER support additional models
   },
 
   pipettes: {
-    [instrumentId: string]: FilePipette
+    [instrumentId: string]: FilePipette,
   },
 
   labware: {
-    [labwareId: string]: FileLabware
+    [labwareId: string]: FileLabware,
   },
 
   procedure: Array<{
     annotation: {
       name: string,
-      description: string
+      description: string,
     },
-    subprocedure: Array<Command>
-  }>
+    subprocedure: Array<Command>,
+  }>,
 }
 
 export function getPDMetadata (file: ProtocolFile): PDMetadata {

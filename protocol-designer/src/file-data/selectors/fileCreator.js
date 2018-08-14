@@ -41,7 +41,7 @@ export const createFile: BaseState => ProtocolFile = createSelector(
       (pipette: PipetteData): FilePipette => ({
         mount: pipette.mount,
         // TODO HACK Ian 2018-05-11 use pipette definitions in labware-definitions
-        model: `p${pipette.maxVolume}_${pipette.channels === 1 ? 'single' : 'multi'}_v1` // eg p10_single_v1
+        model: `p${pipette.maxVolume}_${pipette.channels === 1 ? 'single' : 'multi'}_v1`, // eg p10_single_v1
       })
     )
 
@@ -50,7 +50,7 @@ export const createFile: BaseState => ProtocolFile = createSelector(
       (l: LabwareData): FileLabware => ({
         slot: l.slot,
         'display-name': l.name || l.type, // TODO Ian 2018-05-11 "humanize" type when no name?
-        model: l.type
+        model: l.type,
       })
     )
 
@@ -70,7 +70,7 @@ export const createFile: BaseState => ProtocolFile = createSelector(
         'last-modified': null,
         category: null,
         subcategory: null,
-        tags: []
+        tags: [],
       },
 
       'designer-application': {
@@ -85,12 +85,12 @@ export const createFile: BaseState => ProtocolFile = createSelector(
           ingredients,
           ingredLocations,
           savedStepForms,
-          orderedSteps: savedOrderedSteps
-        }
+          orderedSteps: savedOrderedSteps,
+        },
       },
 
       robot: {
-        model: 'OT-2 Standard'
+        model: 'OT-2 Standard',
       },
 
       pipettes: instruments,
@@ -99,10 +99,10 @@ export const createFile: BaseState => ProtocolFile = createSelector(
       procedure: _robotStateTimeline.timeline.map((timelineItem, i) => ({
         annotation: {
           name: `TODO Name ${i}`,
-          description: 'todo description'
+          description: 'todo description',
         },
-        subprocedure: timelineItem.commands.reduce((acc, c) => [...acc, c], [])
-      }))
+        subprocedure: timelineItem.commands.reduce((acc, c) => [...acc, c], []),
+      })),
     }
   }
 )

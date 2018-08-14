@@ -21,7 +21,7 @@ const DIRECT_SERVICE = {
   name: 'Opentrons USB',
   ip: '[fd00:0:cafe:fefe::1]',
   port: 31950,
-  wired: true
+  wired: true,
 }
 const DIRECT_POLL_INTERVAL_MS = 1000
 

@@ -20,7 +20,7 @@ type Props = {
   /** checkbox is disabled if value is true */
   disabled?: boolean,
   /** handlers for HoverTooltipComponent */
-  hoverTooltipHandlers?: HoverTooltipHandlers
+  hoverTooltipHandlers?: HoverTooltipHandlers,
 }
 
 export default function CheckboxField (props: Props) {

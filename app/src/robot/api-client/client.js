@@ -324,7 +324,7 @@ export default function client (dispatch) {
     if ('lastCommand' in apiSession) {
       const lastCommand = apiSession.lastCommand && {
         id: apiSession.lastCommand.id,
-        handledAt: apiSession.lastCommand.handledAt
+        handledAt: apiSession.lastCommand.handledAt,
       }
 
       return dispatch(actions.sessionUpdate({...update, lastCommand}))
@@ -389,7 +389,7 @@ export default function client (dispatch) {
           id,
           description,
           handledAt,
-          children: children.map((c) => c.id)
+          children: children.map((c) => c.id),
         }
       }
     }

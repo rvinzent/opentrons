@@ -13,7 +13,7 @@ import {
   ACK,
   NACK,
   NOTIFICATION,
-  CONTROL_MESSAGE
+  CONTROL_MESSAGE,
 } from './message-types'
 
 // TODO(mc, 2017-08-29): see note about uuid above
