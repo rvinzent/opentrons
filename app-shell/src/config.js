@@ -32,6 +32,9 @@ const DEFAULTS: Config = {
 
   modules: false,
 
+  // enable factory reset
+  reset: false,
+
   // app update config
   update: {
     channel: pkg.version.includes('beta') ? 'beta' : 'latest'

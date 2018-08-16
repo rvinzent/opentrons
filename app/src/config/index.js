@@ -14,6 +14,7 @@ export type UpdateChannel = 'latest' | 'beta' | 'alpha'
 export type Config = {
   devtools: boolean,
   modules: boolean,
+  reset: boolean,
 
   // app update config
   update: {
