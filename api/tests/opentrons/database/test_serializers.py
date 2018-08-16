@@ -43,16 +43,3 @@ def test_one_serializer():
 
     assert json_from_container['ordering'] == json_from_file['ordering']
     assert json_from_container['wells'] == json_from_file['wells']
-
-
-def test_seralizer_all_containers():
-    new_defs = ['opentrons-tiprack-300ul', 'tube-rack-5ml-96', '4-well-plate']
-    plates = [item for item in ldef.list_all_labware() if item not in new_defs]
-    for plate in plates:
-        old_container = sqldb.load_container(plate)
-
-        json_from_file = ldef._load_definition(test_defn_root, plate)
-        json_from_container = ser.container_to_json(old_container)
-
-        assert json_from_container['ordering'] == json_from_file['ordering']
-        assert json_from_container['wells'] == json_from_file['wells']
